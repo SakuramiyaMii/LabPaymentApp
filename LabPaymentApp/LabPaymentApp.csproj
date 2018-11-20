@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{3B37206B-5C23-41B8-8379-32E12F2BED88}</ProjectGuid>
+    <ProjectGuid>{C48AC81C-D8B0-4CDD-9959-66CE7930BD58}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LabPaymentApp</RootNamespace>
     <AssemblyName>LabPaymentApp</AssemblyName>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -65,30 +65,6 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
-    <OutputPath>bin\ARM64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -116,13 +92,76 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AllHistoryViewScreen.xaml.cs">
+      <DependentUpon>AllHistoryViewScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="AuthenticationScreen.xaml.cs">
+      <DependentUpon>AuthenticationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChargeConfirmationScreen.xaml.cs">
+      <DependentUpon>ChargeConfirmationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChargeScreen.xaml.cs">
+      <DependentUpon>ChargeScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemandInputScreen.xaml.cs">
+      <DependentUpon>DemandInputScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemandViewScreen.xaml.cs">
+      <DependentUpon>DemandViewScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HotSellingProductsViewScreen.xaml.cs">
+      <DependentUpon>HotSellingProductsViewScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LogoutCompleteScreen.xaml.cs">
+      <DependentUpon>LogoutCompleteScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuScreen.xaml.cs">
+      <DependentUpon>MenuScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OperationFailureScreen.xaml.cs">
+      <DependentUpon>OperationFailureScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OperationHistoryViewScreen.xaml.cs">
+      <DependentUpon>OperationHistoryViewScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OperationSuccessfulScreen.xaml.cs">
+      <DependentUpon>OperationSuccessfulScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalHistoryViewScreen.xaml.cs">
+      <DependentUpon>PersonalHistoryViewScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductInformationEditScreen.xaml.cs">
+      <DependentUpon>ProductInformationEditScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductListEditScreen.xaml.cs">
+      <DependentUpon>ProductListEditScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPurchaseConfirmationScreen.xaml.cs">
+      <DependentUpon>ProductPurchaseConfirmationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPurchaseScreen.xaml.cs">
+      <DependentUpon>ProductPurchaseScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductRegistrationConfirmationScreen.xaml.cs">
+      <DependentUpon>ProductRegistrationConfirmationScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductRegistrationScreen.xaml.cs">
+      <DependentUpon>ProductRegistrationScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserAdditionalScreen.xaml.cs">
+      <DependentUpon>UserAdditionalScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInformationEditScreen.xaml.cs">
+      <DependentUpon>UserInformationEditScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserListEditScreen.xaml.cs">
+      <DependentUpon>UserListEditScreen.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -145,14 +184,98 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="AllHistoryViewScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AuthenticationScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ChargeConfirmationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChargeScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemandInputScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemandViewScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HotSellingProductsViewScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LogoutCompleteScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OperationFailureScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OperationHistoryViewScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OperationSuccessfulScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonalHistoryViewScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductInformationEditScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductListEditScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductPurchaseConfirmationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductPurchaseScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductRegistrationConfirmationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductRegistrationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserAdditionalScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInformationEditScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserListEditScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.2</Version>
+      <Version>6.1.9</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

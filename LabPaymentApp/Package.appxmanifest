@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="b3802037-f0b7-461c-9901-acd582062c30"
-    Publisher="CN=fujik"
+    Name="72458304-e57a-4f5a-8c1e-136be572b2b9"
+    Publisher="CN=ThinkPad"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="b3802037-f0b7-461c-9901-acd582062c30" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="72458304-e57a-4f5a-8c1e-136be572b2b9" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>LabPaymentApp</DisplayName>
-    <PublisherDisplayName>fujik</PublisherDisplayName>
+    <PublisherDisplayName>ThinkPad</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

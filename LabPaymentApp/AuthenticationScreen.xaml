@@ -1,0 +1,17 @@
+﻿<Page
+    Width="1920" Height="1200"
+    x:Class="LabPaymentApp.AuthenticationScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LabPaymentApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Width="1920" Height="1200">
+        <TextBlock HorizontalAlignment="Left" Height="230" Margin="245,217,0,0" Text="カードをかざして下さい" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72"/>
+        <Button x:Name="Auth_Comp_Button" Content="カード認証完了" HorizontalAlignment="Left" Margin="1116,651,0,0" VerticalAlignment="Top" FontSize="72" Click="Auth_Comp_Button_Click"/>
+
+    </Grid>
+</Page>
