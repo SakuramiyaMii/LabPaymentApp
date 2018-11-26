@@ -184,6 +184,7 @@
     <Compile Include="UserListEditScreen.xaml.cs">
       <DependentUpon>UserListEditScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RakutenSearchAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -300,7 +301,9 @@
       <Version>6.1.9</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="楽天検索API\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

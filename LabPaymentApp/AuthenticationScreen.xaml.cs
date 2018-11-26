@@ -22,6 +22,8 @@ using Windows.Devices.SmartCards;
 using Windows.Networking.Proximity;
 using Felica;
 
+
+
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
 
 namespace LabPaymentApp
@@ -92,6 +94,13 @@ namespace LabPaymentApp
                 }
                 return s;
             }
+        }
+
+        private async void testbutton_Click(object sender, RoutedEventArgs e)
+        {
+            string s = await RakutenSearchAPI.JAN_Search(Jancode_Box.Text);
+            TestBox.AcceptsReturn = true;
+            TestBox.Text = s;
         }
     }
 }
