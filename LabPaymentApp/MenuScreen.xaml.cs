@@ -26,6 +26,21 @@ namespace LabPaymentApp
         {
             this.InitializeComponent();
         }
+        
+        
+        // 別のページから遷移してきた時に呼び出されるメソッド
+        // 画面描画は完了していないのでLoadedメソッドを利用？
+        // 参照 : ttps://qiita.com/nagasakulllo/items/0b06ccc66b9fe0909b3f
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            //mID = e.Parameter as string;
+        }
+
+        // ページ描画完了後に呼び出されるメソッド(xamlにて指定)
+        private void setmID(object sender, RoutedEventArgs e)
+        {
+            Username_Text.Text = StaticParam._mID;
+        }
 
         private void Purchase_Button_Click(object sender, RoutedEventArgs e)
         {
