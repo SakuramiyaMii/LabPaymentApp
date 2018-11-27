@@ -33,11 +33,38 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class AuthenticationScreen : Page
     {
+
+        // タイマー変数
+        private DispatcherTimer _timer;
+
         public AuthenticationScreen()
         {
             this.InitializeComponent();
             // フルスクリーン化
             //Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e){
+            // タイマー生成
+            _timer = new DispatcherTimer();
+            // タイマーイベントの間隔設定
+            _timer.Interval = TimeSpan.FromSeconds(0.1);
+            _timer.Tick += Check_Card;
+            // タイマーをスタートする
+            _timer.Start();
+        }
+
+        // タイマー用メソッド
+        // カードが翳された場合、画面遷移を行う
+        private async void Check_Card(object sender, object e){
+            string mID = await Getmid();
+            if(mID != ""){
+                // タイマーの停止
+                _timer.Stop();
+                StaticParam._mID = mID;
+                // 遷移
+                Frame.Navigate(typeof(MenuScreen));
+            }
         }
 
         private async void Auth_Comp_Button_Click(object sender, RoutedEventArgs e)
@@ -53,6 +80,7 @@ namespace LabPaymentApp
             Frame.Navigate(typeof(MenuScreen));
         }
 
+        // カード読込メソッド
         private async Task<string> Getmid()
         {
             // Reader検索
@@ -96,6 +124,7 @@ namespace LabPaymentApp
             }
         }
 
+        // テスト用 JANコード検索ボタン
         private async void testbutton_Click(object sender, RoutedEventArgs e)
         {
             string s = await RakutenSearchAPI.JAN_Search(Jancode_Box.Text);
