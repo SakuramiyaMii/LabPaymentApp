@@ -27,7 +27,7 @@ namespace LabPaymentApp
         {
             // タイマー生成
             _timer = new DispatcherTimer();
-            // タイマーイベントの間隔設定(0.1秒間隔)
+            // タイマーイベントの間隔設定(5秒間隔)
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Logout;
             // タイマーをスタートする
