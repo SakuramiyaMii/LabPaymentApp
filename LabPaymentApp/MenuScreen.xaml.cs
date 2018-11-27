@@ -33,7 +33,34 @@ namespace LabPaymentApp
         // 参照 : ttps://qiita.com/nagasakulllo/items/0b06ccc66b9fe0909b3f
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //mID = e.Parameter as string;
+            // 本番用
+            // Check_Permission(StaticParam._permission);
+            // デバッグ用
+            Check_Permission(3);
+        }
+
+        // パーミッションチェックメソッド
+        private void Check_Permission(int perm)
+        {
+            switch (perm)
+            {
+                case 1: // 権限レベル1 : 利用者
+                    Product_Add_Button.IsEnabled = false;
+                    Product_Edit_Button.IsEnabled = false;
+                    User_Edit_Button.IsEnabled = false;
+                    break;
+                case 2: // 権限レベル2 : 仕入者
+                    User_Edit_Button.IsEnabled = false;
+                    break;
+                case 3: // 権限レベル3 : 管理者
+                    // 特に無し
+                    break;
+                default: // 権限レベル? : その他
+                    Product_Add_Button.IsEnabled = false;
+                    Product_Edit_Button.IsEnabled = false;
+                    User_Edit_Button.IsEnabled = false;
+                    break;
+            }
         }
 
         // ページ描画完了後に呼び出されるメソッド(xamlにて指定)
