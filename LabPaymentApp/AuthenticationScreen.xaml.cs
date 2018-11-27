@@ -47,7 +47,7 @@ namespace LabPaymentApp
         protected override void OnNavigatedTo(NavigationEventArgs e){
             // タイマー生成
             _timer = new DispatcherTimer();
-            // タイマーイベントの間隔設定
+            // タイマーイベントの間隔設定(0.1秒間隔)
             _timer.Interval = TimeSpan.FromSeconds(0.1);
             _timer.Tick += Check_Card;
             // タイマーをスタートする

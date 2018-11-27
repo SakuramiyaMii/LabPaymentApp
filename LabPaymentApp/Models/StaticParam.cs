@@ -22,7 +22,7 @@ namespace LabPaymentApp
         /// <summary>
         /// 初期化メソッド
         /// </summary>
-        public void init(){
+        public static void init(){
             _mID = "";
             _userName = "";
             _balance = 0;
