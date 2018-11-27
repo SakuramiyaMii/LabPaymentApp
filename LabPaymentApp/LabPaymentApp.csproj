@@ -107,6 +107,9 @@
     <Compile Include="ChargeScreen.xaml.cs">
       <DependentUpon>ChargeScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Debug.xaml.cs">
+      <DependentUpon>Debug.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DemandInputScreen.xaml.cs">
       <DependentUpon>DemandInputScreen.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChargeScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Debug.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

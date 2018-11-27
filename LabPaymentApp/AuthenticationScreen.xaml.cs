@@ -124,12 +124,10 @@ namespace LabPaymentApp
             }
         }
 
-        // テスト用 JANコード検索ボタン
-        private async void testbutton_Click(object sender, RoutedEventArgs e)
+        // デバッグ画面遷移イベント
+        private void Debug_Button_Click(object sender, RoutedEventArgs e)
         {
-            string s = await RakutenSearchAPI.JAN_Search(Jancode_Box.Text);
-            TestBox.AcceptsReturn = true;
-            TestBox.Text = s;
+            Frame.Navigate(typeof(Debug));
         }
     }
 }
