@@ -28,6 +28,33 @@
         <Button x:Name="_3_Button" Content="3" HorizontalAlignment="Left" Height="100" Margin="568,319,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_3_Button_Click"/>
         <Button x:Name="_0_Button" Content="0" HorizontalAlignment="Left" Height="100" Margin="368,418,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_0_Button_Click"/>
         <Button x:Name="BS_Button" Content="BS" HorizontalAlignment="Left" Height="100" Margin="468,418,0,0" VerticalAlignment="Top" Width="200" FontSize="72" Click="BS_Button_Click"/>
+        <TextBlock x:Name="Combo_Item" HorizontalAlignment="Left" Margin="693,169,0,0" Text="選択アイテム" TextWrapping="Wrap" VerticalAlignment="Top" Width="149"/>
+        <ComboBox HorizontalAlignment="Left" Margin="693,124,0,0" VerticalAlignment="Top" Width="149" SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBoxItem IsSelected="True">カテゴリ</ComboBoxItem>
+            <ComboBoxItem>水・飲料</ComboBoxItem>
+            <ComboBoxItem>カップ麺(ラーメン)</ComboBoxItem>
+            <ComboBoxItem>カップ麺(その他)</ComboBoxItem>
+            <ComboBoxItem>チョコレート菓子</ComboBoxItem>
+            <ComboBoxItem>スナック菓子</ComboBoxItem>
+            <ComboBoxItem>駄菓子</ComboBoxItem>
+            <ComboBoxItem>ファミリーパック菓子</ComboBoxItem>
+            <ComboBoxItem>アイス</ComboBoxItem>
+            <ComboBoxItem>その他</ComboBoxItem>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="91,533,0,0" Text="候補キーワード" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="87"/>
+        <Button x:Name="Candidate_1" Content="候補1" HorizontalAlignment="Left" Margin="91,567,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_1_Click"/>
+        <Button x:Name="Candidate_3" Content="候補3" HorizontalAlignment="Left" Margin="91,614,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_3_Click"/>
+        <Button x:Name="Candidate_2" Content="候補2" HorizontalAlignment="Left" Margin="223,567,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_2_Click"/>
+        <Button x:Name="Candidate_4" Content="候補4" HorizontalAlignment="Left" Margin="223,614,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_4_Click"/>
+        <Button x:Name="Candidate_5" Content="候補5" HorizontalAlignment="Left" Margin="91,659,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_5_Click"/>
+        <Button x:Name="Candidate_7" Content="候補7" HorizontalAlignment="Left" Margin="91,706,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_7_Click"/>
+        <Button x:Name="Candidate_6" Content="候補6" HorizontalAlignment="Left" Margin="223,659,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_6_Click"/>
+        <Button x:Name="Candidate_8" Content="候補8" HorizontalAlignment="Left" Margin="223,706,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_8_Click"/>
+        <Button x:Name="Candidate_9" Content="候補9" HorizontalAlignment="Left" Margin="91,754,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_9_Click"/>
+        <Button x:Name="Candidate_10" Content="候補10" HorizontalAlignment="Left" Margin="223,755,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_10_Click"/>
+        <TextBox x:Name="Gen_Text" HorizontalAlignment="Left" Height="32" Margin="91,807,0,0" Text="" VerticalAlignment="Top" Width="250"/>
+        <Button x:Name="Clear_Button" Content="Clear" HorizontalAlignment="Left" Margin="221,530,0,0" VerticalAlignment="Top" Width="118" Click="Clear_Button_Click"/>
+
 
     </Grid>
 </Page>

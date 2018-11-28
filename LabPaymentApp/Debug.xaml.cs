@@ -39,7 +39,30 @@ namespace LabPaymentApp
             string s = await RakutenSearchAPI.JAN_Search(Jancode_Box.Text);
             TestBox.AcceptsReturn = true;
             TestBox.Text = s;
+            Candidate_Set(s);
         }
+
+        // 候補ワードをボタンにセット
+        private void Candidate_Set(string str){
+            int count = 0;
+            for(int i = 1; i < 11; i++ ){
+                Button b = (Button)FindName("Candidate_" + (i.ToString()));
+                b.Content = "候補" + i.ToString();
+            }
+            string[] strSet = str.Split('\n');
+            foreach(string sub in strSet){
+                count++;
+                Button b = (Button)FindName("Candidate_" + (count.ToString()));
+                if(b != null){
+                    if (sub != null){
+                        b.Content = sub;
+                    }else{
+                        b.Content = "該当無し";
+                    }
+                }
+            }
+        }
+        
 
         // テンキーここから
         // テンキーの対象とするテキストボックス名
@@ -108,10 +131,167 @@ namespace LabPaymentApp
 
         private void BS_Button_Click(object sender, RoutedEventArgs e)
         {
-            Num_Box.Text = Num_Box.Text.Substring(0, (Num_Box.Text.Length == 0 ? 1 : Num_Box.Text.Length) - 1);
+            tb.Text = tb.Text.Substring(0, (tb.Text.Length == 0 ? 1 : tb.Text.Length) - 1);
         }
 
-
         // テンキーここまで
+
+        // コンボボックスの内容が更新された時に呼び出されるメソッド
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender != null)
+            {
+                ComboBox cb = (ComboBox)sender;
+                // コンボボックスのうち選ばれた項目名を取得
+                Combo_Item.Text = ((ComboBoxItem)cb.SelectedItem).Content as string;
+                
+            }
+        }
+
+        string genTb = "Gen_Text";
+        TextBox gtb = new TextBox();
+
+        private void Candidate_1_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if(gtb.Text == ""){
+                gtb.Text += b.Content;
+            }else{
+                gtb.Text += " "+ b.Content;
+            }
+        }
+
+        private void Candidate_2_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == ""){
+                gtb.Text += b.Content;
+            }
+            else{
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_3_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == ""){
+                gtb.Text += b.Content;
+            }
+            else{
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_4_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_5_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_6_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_7_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_8_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_9_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Candidate_10_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            Button b = (Button)sender;
+            if (gtb.Text == "")
+            {
+                gtb.Text += b.Content;
+            }
+            else
+            {
+                gtb.Text += " " + b.Content;
+            }
+        }
+
+        private void Clear_Button_Click(object sender, RoutedEventArgs e)
+        {
+            gtb = (TextBox)FindName(genTb);
+            gtb.Text = "";
+
+        }
+
+        // コンボボックスの内容が更新された際に呼び出されるメソッド
+
     }
 }

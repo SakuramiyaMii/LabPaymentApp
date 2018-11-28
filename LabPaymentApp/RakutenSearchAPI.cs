@@ -16,6 +16,10 @@ using System.Text.RegularExpressions;
 /// </summary>
 /// 
 
+/// 注意点
+/// 指定するキーワードを空にすると例外発生(調査したほうがいいかもしれない)
+/// 指定するキーワードを1文字とかにするとAPIの仕様上正しい結果を返さない
+
 namespace LabPaymentApp
 {
     class RakutenSearchAPI
