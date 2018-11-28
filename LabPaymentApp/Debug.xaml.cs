@@ -291,6 +291,13 @@ namespace LabPaymentApp
 
         }
 
+        private void Setting_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Item_Name.Text = Gen_Text.Text;
+            Category_Name.Text = Combo_Item.Text;
+            Num_Name.Text = Num_Box.Text;
+        }
+
         // コンボボックスの内容が更新された際に呼び出されるメソッド
 
     }

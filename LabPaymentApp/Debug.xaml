@@ -16,7 +16,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="91,221,0,0" Text="出力結果" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="TestBox" HorizontalAlignment="Left" Margin="91,246,0,0" Text="" VerticalAlignment="Top" Width="219" Height="272"/>
         <Button x:Name="testbutton" Content="実行" HorizontalAlignment="Left" Height="32" Margin="250,152,0,0" VerticalAlignment="Top" Width="60" Click="testbutton_Click"/>
-        <TextBox x:Name="Num_Box" HorizontalAlignment="Left" Margin="368,55,0,0" Text="" VerticalAlignment="Top" Height="45" Width="300" FontSize="20"/>
+        <TextBox x:Name="Num_Box" HorizontalAlignment="Left" Margin="368,55,0,0" Text="" VerticalAlignment="Top" Height="45" Width="300" FontSize="20" TextAlignment="Right"/>
         <Button x:Name="_7_Button" Content="7" HorizontalAlignment="Left" Height="100" Margin="368,118,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_7_Button_Click"/>
         <Button x:Name="_8_Button" Content="8" HorizontalAlignment="Left" Height="100" Margin="468,118,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_8_Button_Click"/>
         <Button x:Name="_9_Button" Content="9" HorizontalAlignment="Left" Height="100" Margin="568,119,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_9_Button_Click"/>
@@ -54,6 +54,13 @@
         <Button x:Name="Candidate_10" Content="候補10" HorizontalAlignment="Left" Margin="223,755,0,0" VerticalAlignment="Top" Width="118" Click="Candidate_10_Click"/>
         <TextBox x:Name="Gen_Text" HorizontalAlignment="Left" Height="32" Margin="91,807,0,0" Text="" VerticalAlignment="Top" Width="250"/>
         <Button x:Name="Clear_Button" Content="Clear" HorizontalAlignment="Left" Margin="221,530,0,0" VerticalAlignment="Top" Width="118" Click="Clear_Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="981,55,0,0" Text="商品名" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="981,161,0,0" Text="カテゴリ" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="981,271,0,0" Text="個数" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"/>
+        <TextBlock x:Name="Item_Name" HorizontalAlignment="Left" Margin="981,108,0,0" Text="商品名" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24"/>
+        <TextBlock x:Name="Category_Name" HorizontalAlignment="Left" Margin="981,211,0,0" Text="カテゴリ名" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24"/>
+        <TextBlock x:Name="Num_Name" HorizontalAlignment="Left" Margin="981,324,0,0" Text="個数" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24"/>
+        <Button x:Name="Setting_Button" Content="SETTING" HorizontalAlignment="Left" Height="73" Margin="980,382,0,0" VerticalAlignment="Top" Width="172" FontSize="36" Click="Setting_Button_Click"/>
 
 
     </Grid>
