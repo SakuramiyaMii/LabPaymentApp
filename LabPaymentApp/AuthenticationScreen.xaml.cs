@@ -129,5 +129,10 @@ namespace LabPaymentApp
         {
             Frame.Navigate(typeof(Debug));
         }
+
+        private void Datagrid_test_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Datagrid));
+        }
     }
 }
