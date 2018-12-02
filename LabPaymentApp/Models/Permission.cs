@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// 権限定義クラス
+/// 使用する際Permissions.permissionListを参照する
+/// </summary>
+
 namespace LabPaymentApp.Models
 {
     public class Permission
