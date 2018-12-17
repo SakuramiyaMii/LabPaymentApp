@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="setmID"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.MenuScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,8 +11,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Width="1920" Height="1200">
-        <TextBlock HorizontalAlignment="Left" Margin="142,110,0,0" Text="九工大太郎 様" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,110,0,0" Text="残高 XXXXエ円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock x:Name="Username_Text" HorizontalAlignment="Left" Margin="142,110,0,0" Text="九工大太郎 様" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock HorizontalAlignment="Left" Margin="707,222,0,0" Text="残高 XXXXエ円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
         <Button x:Name="Logout_Button" Content="ログアウト" HorizontalAlignment="Left" Margin="1392,110,0,0" VerticalAlignment="Top" FontSize="72" Click="Logout_Button_Click"/>
         <Button x:Name="Purchase_Button" Content="商品購入" HorizontalAlignment="Left" Margin="142,323,0,0" VerticalAlignment="Top" FontSize="72" Height="277" Width="452" Click="Purchase_Button_Click"/>
         <Button x:Name="Charge_Button" Content="チャージ" HorizontalAlignment="Left" Margin="142,712,0,0" VerticalAlignment="Top" FontSize="72" Height="150" Width="452" Click="Charge_Button_Click"/>

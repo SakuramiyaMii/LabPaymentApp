@@ -12,9 +12,20 @@
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="購入する商品のバーコードをスキャンして下さい" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72"/>
         <Button Content="表" HorizontalAlignment="Left" Margin="169,256,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="785" Width="597" FontSize="72"/>
-        <Button Content="テンキー" HorizontalAlignment="Left" Margin="833,256,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="785" Width="533" FontSize="72"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,897,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
         <Button x:Name="Purchase_Decide_Button" Content="決済" HorizontalAlignment="Left" Margin="1445,708,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Purchase_Decide_Button_Click"/>
+        <Button x:Name="_7_Button" Content="7" HorizontalAlignment="Left" Height="100" Margin="891,408,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_7_Button_Click"/>
+        <Button x:Name="_8_Button" Content="8" HorizontalAlignment="Left" Height="100" Margin="991,408,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_8_Button_Click"/>
+        <Button x:Name="_9_Button" Content="9" HorizontalAlignment="Left" Height="100" Margin="1091,409,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_9_Button_Click"/>
+        <Button x:Name="_4_Button" Content="4" HorizontalAlignment="Left" Height="100" Margin="891,508,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_4_Button_Click"/>
+        <Button x:Name="_5_Button" Content="5" HorizontalAlignment="Left" Height="100" Margin="991,508,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_5_Button_Click"/>
+        <Button x:Name="_6_Button" Content="6" HorizontalAlignment="Left" Height="100" Margin="1091,509,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_6_Button_Click"/>
+        <Button x:Name="_1_Button" Content="1" HorizontalAlignment="Left" Height="100" Margin="891,608,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_1_Button_Click"/>
+        <Button x:Name="_2_Button" Content="2" HorizontalAlignment="Left" Height="100" Margin="991,608,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_2_Button_Click"/>
+        <Button x:Name="_3_Button" Content="3" HorizontalAlignment="Left" Height="100" Margin="1091,609,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_3_Button_Click"/>
+        <Button x:Name="_0_Button" Content="0" HorizontalAlignment="Left" Height="100" Margin="891,708,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_0_Button_Click"/>
+        <Button x:Name="BS_Button" Content="BS" HorizontalAlignment="Left" Height="100" Margin="991,708,0,0" VerticalAlignment="Top" Width="200" FontSize="72" Click="BS_Button_Click"/>
+        <TextBox x:Name="Num_Box" HorizontalAlignment="Left" Margin="890,327,0,0" Text="デフォルトテンキーフォーカス" VerticalAlignment="Top" Width="300" TextAlignment="Right" Visibility="Visible"/>
 
     </Grid>
 </Page>

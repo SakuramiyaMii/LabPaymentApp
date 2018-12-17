@@ -22,6 +22,26 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class LogoutCompleteScreen : Page
     {
+        private DispatcherTimer _timer;
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // タイマー生成
+            _timer = new DispatcherTimer();
+            // タイマーイベントの間隔設定(5秒間隔)
+            _timer.Interval = TimeSpan.FromSeconds(5);
+            _timer.Tick += Logout;
+            // タイマーをスタートする
+            _timer.Start();
+        }
+
+        private void Logout(object sender, object e){
+            // タイマーの停止
+            _timer.Stop();
+            // 保持情報の初期化
+            StaticParam.init();
+            // 認証画面への遷移
+            Frame.Navigate(typeof(AuthenticationScreen));
+        }
         public LogoutCompleteScreen()
         {
             this.InitializeComponent();
@@ -29,6 +49,11 @@ namespace LabPaymentApp
 
         private void Top_Transit_Button_Click(object sender, RoutedEventArgs e)
         {
+            // タイマーの停止
+            _timer.Stop();
+            // 保持情報の初期化
+            StaticParam.init();
+            // 認証画面への遷移
             Frame.Navigate(typeof(AuthenticationScreen));
         }
     }

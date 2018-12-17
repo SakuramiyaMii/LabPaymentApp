@@ -22,6 +22,26 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class OperationFailureScreen : Page
     {
+        private DispatcherTimer _timer;
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // タイマー生成
+            _timer = new DispatcherTimer();
+            // タイマーイベントの間隔設定(5秒間隔)
+            _timer.Interval = TimeSpan.FromSeconds(5);
+            _timer.Tick += Goto_Menu;
+            // タイマーをスタートする
+            _timer.Start();
+        }
+
+        private void Goto_Menu(object sender, object e)
+        {
+            // タイマーの停止
+            _timer.Stop();
+            // メニュー画面への遷移
+            Frame.Navigate(typeof(MenuScreen));
+        }
+
         public OperationFailureScreen()
         {
             this.InitializeComponent();
@@ -29,6 +49,9 @@ namespace LabPaymentApp
 
         private void Top_Transit_Button_Click(object sender, RoutedEventArgs e)
         {
+            // タイマーの停止
+            _timer.Stop();
+            // メニュー画面への遷移
             Frame.Navigate(typeof(MenuScreen));
         }
     }

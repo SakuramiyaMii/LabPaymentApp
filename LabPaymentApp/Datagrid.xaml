@@ -1,0 +1,37 @@
+﻿<Page
+    Width="1920" Height="1200"
+    x:Class="LabPaymentApp.Datagrid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LabPaymentApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Grid Width="1920" Height="1200">
+        <controls:DataGrid 
+            x:Name="dataGrid" 
+            Margin="288,392,1082,554"
+            AutoGenerateColumns="false"
+            ItemsSource="{Binding}"  CurrentCellChanged="DataGrid_CurrentCellChanged">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="JANコード" Binding="{Binding _janCode}"/>
+                <controls:DataGridTextColumn Header="商品名" Binding="{Binding _itemName}"/>
+                <controls:DataGridTextColumn Header="値段" Binding="{Binding _price}"/>
+                <controls:DataGridTextColumn Header="個数" Binding="{Binding _num}"/>
+                <controls:DataGridComboBoxColumn Header="カテゴリ名" Binding="{Binding _categoryId}" ItemsSource = "{x:Bind categoryList, Mode=OneWay}"  DisplayMemberPath="_categoryName" />
+                <controls:DataGridTemplateColumn Header="削除">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="削除"  Tag="{Binding _janCode}" Click="Delete_Click" Width="75"/>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+        <Button x:Name="Add_Record" Content="Add Record" HorizontalAlignment="Left" Margin="288,690,0,0" VerticalAlignment="Top" Width="160" Click="Add_Record_Click"/>
+        <TextBlock x:Name="t_block" HorizontalAlignment="Left" Margin="498,690,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="179"/>
+    </Grid>
+</Page>
