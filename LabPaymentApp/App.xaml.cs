@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,13 +32,6 @@ namespace LabPaymentApp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
-            // SQliteデータベース初期化
-            // .dbを置くフォルダは C:/Users/{UserName}/AppData/Local/Packages/72458304-e57a-4f5a-8c1e-136be572b2b9/LocalState/
-            using (SqliteConnection db = new SqliteConnection("Filename=database.db"))
-            {
-                db.Open();
-            }
         }
 
         /// <summary>

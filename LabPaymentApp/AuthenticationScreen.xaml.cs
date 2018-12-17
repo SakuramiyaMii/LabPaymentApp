@@ -34,7 +34,6 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class AuthenticationScreen : Page
     {
-
         // タイマー変数
         private DispatcherTimer _timer;
 
