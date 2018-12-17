@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,13 @@ namespace LabPaymentApp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            // SQliteデータベース初期化
+            // .dbを置くフォルダは C:/Users/{UserName}/AppData/Local/Packages/72458304-e57a-4f5a-8c1e-136be572b2b9/LocalState/
+            using (SqliteConnection db = new SqliteConnection("Filename=sqliteSample.db"))
+            {
+                db.Open();
+            }
         }
 
         /// <summary>
