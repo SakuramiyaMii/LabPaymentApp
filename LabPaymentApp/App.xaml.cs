@@ -34,7 +34,7 @@ namespace LabPaymentApp
 
             // SQliteデータベース初期化
             // .dbを置くフォルダは C:/Users/{UserName}/AppData/Local/Packages/72458304-e57a-4f5a-8c1e-136be572b2b9/LocalState/
-            using (SqliteConnection db = new SqliteConnection("Filename=sqliteSample.db"))
+            using (SqliteConnection db = new SqliteConnection("Filename=database.db"))
             {
                 db.Open();
             }
