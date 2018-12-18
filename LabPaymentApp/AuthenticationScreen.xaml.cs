@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,7 +34,6 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class AuthenticationScreen : Page
     {
-
         // タイマー変数
         private DispatcherTimer _timer;
 
