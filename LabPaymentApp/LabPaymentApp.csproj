@@ -107,12 +107,15 @@
     <Compile Include="ChargeScreen.xaml.cs">
       <DependentUpon>ChargeScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database.cs" />
+    <Compile Include="DatabaseAccess.cs" />
     <Compile Include="Datagrid.xaml.cs">
       <DependentUpon>Datagrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Debug_DataBase.xaml.cs">
+      <DependentUpon>Debug_DataBase.xaml</DependentUpon>
     </Compile>
     <Compile Include="DemandInputScreen.xaml.cs">
       <DependentUpon>DemandInputScreen.xaml</DependentUpon>
@@ -194,6 +197,7 @@
       <DependentUpon>UserListEditScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="RakutenSearchAPI.cs" />
+    <Compile Include="UsersInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -237,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Debug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Debug_DataBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
