@@ -34,7 +34,7 @@ namespace LabPaymentApp
         // カテゴリリストの定義(編集不可)
         private List<Category> categoryList = Categories.categoryList;
         // 権限リストの定義(編集不可)
-        private List<Permission> permissionList = Permissions.permissionList;
+        // private List<Permission> permissionList = Permissions.permissionList;
 
         public Datagrid()
         {
