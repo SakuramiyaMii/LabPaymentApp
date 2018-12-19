@@ -72,26 +72,20 @@ namespace LabPaymentApp.Models
         /// </summary>
         public Item()
         {
-            janCode = "";
-            itemName = "";
-            categoryId = 0;
-            price = 0;
-            num = 0;
+            this.janCode = "";
+            this.itemName = "";
+            this.categoryId = 0;
+            this.price = 0;
+            this.num = 0;
         }
 
-        /// <summary>
-        /// 初期化メソッド
-        /// </summary>
-        public void init(){
-            janCode = "";
-            itemName = "";
-            categoryId = 0;
-            price = 0;
-            num = 0;
-        }
-
-        public void Dispose(){
-
+        public Item(string janCode,string itemName,int categoryId,int price,int num)
+        {
+            this.janCode = janCode;
+            this.itemName = itemName;
+            this.categoryId = categoryId;
+            this.price = price;
+            this.num = num;
         }
     }
 }

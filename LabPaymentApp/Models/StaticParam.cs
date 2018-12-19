@@ -28,7 +28,5 @@ namespace LabPaymentApp
             _balance = 0;
             _permission = 0;
         }    
-        
-        
     }
 }

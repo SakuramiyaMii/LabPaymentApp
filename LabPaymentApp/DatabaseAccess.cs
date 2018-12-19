@@ -56,10 +56,10 @@ namespace LabPaymentApp
                 while (query.Read())
                 {
                     UsersInformation user = new UsersInformation();
-                    user.mid = query.GetString(0);
-                    user.balance = query.GetInt32(1);
-                    user.user_name = query.GetString(2);
-                    user.permission = query.GetString(3);
+                    user._mid = query.GetString(0);
+                    user._balance = query.GetInt32(1);
+                    user._user_name = query.GetString(2);
+                    user._permission = query.GetString(3);
                     ret.Add(user);
                 }
             }
@@ -115,11 +115,11 @@ namespace LabPaymentApp
             SqliteConnection db = this.OpenDB();
 
             SqliteCommand command = new SqliteCommand("INSERT INTO users_information VALUES(@mid,@balance,@user_name,@permission)", db);
-            command.Parameters.AddWithValue("@mid", user.mid);
-            command.Parameters.AddWithValue("@balance", user.balance);
-            command.Parameters.AddWithValue("@user_name", user.user_name);
-            command.Parameters.AddWithValue("@permission", user.permission);
-
+            command.Parameters.AddWithValue("@mid", user._mid);
+            command.Parameters.AddWithValue("@balance", user._balance);
+            command.Parameters.AddWithValue("@user_name", user._user_name);
+            command.Parameters.AddWithValue("@permission", user._permission);
+            
             try
             {
                 command.ExecuteReader();

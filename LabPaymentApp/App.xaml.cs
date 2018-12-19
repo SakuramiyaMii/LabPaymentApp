@@ -68,7 +68,7 @@ namespace LabPaymentApp
                     // このとき、必要な情報をナビゲーション パラメーターとして渡して、新しいページを
                     //構成します
                     // rootFrame.Navigate(typeof(AuthenticationScreen), e.Arguments);
-                    rootFrame.Navigate(typeof(Debug_DataBase), e.Arguments);
+                    rootFrame.Navigate(typeof(Debug_DataBase),e.Arguments);
                 }
                 // 現在のウィンドウがアクティブであることを確認します
                 Window.Current.Activate();

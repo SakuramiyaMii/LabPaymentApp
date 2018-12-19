@@ -134,9 +134,6 @@
     </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\Permission.cs" />
-    <Compile Include="Models\Request.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="OperationFailureScreen.xaml.cs">
       <DependentUpon>OperationFailureScreen.xaml</DependentUpon>
     </Compile>
@@ -197,7 +194,7 @@
       <DependentUpon>UserListEditScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="RakutenSearchAPI.cs" />
-    <Compile Include="UsersInformation.cs" />
+    <Compile Include="Models\UsersInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
