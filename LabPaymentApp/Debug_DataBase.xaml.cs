@@ -32,7 +32,7 @@ namespace LabPaymentApp
         {
 
             /// <example> Get_AllUserInfomation
-            /*
+            
             DatabaseAccess dba = new DatabaseAccess();
 
             List<UsersInformation> users = dba.Get_AllUserInformation();
@@ -40,9 +40,9 @@ namespace LabPaymentApp
             foreach (UsersInformation ui in users)
             {
                 //デバッグウインドウへの出力
-                System.Diagnostics.Debug.WriteLine("{0},{1},{2},{3}",ui.mid,ui.balance,ui.user_name,ui.permission);
+                System.Diagnostics.Debug.WriteLine("{0},{1},{2},{3}",ui._mid,ui._balance,ui._user_name,ui._permission);
             }
-            */
+            
 
             /// <example> Search_UserInfomation
             /*
