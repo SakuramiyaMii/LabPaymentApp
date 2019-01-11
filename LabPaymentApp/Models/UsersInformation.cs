@@ -43,7 +43,7 @@ namespace LabPaymentApp
             this._permission = "";
         }
 
-        public UsersInformation(string mid,int balance,string user_name,string permission)
+        public UsersInformation(string mid,string user_name, int balance, string permission)
         {
             this.mid = mid;
             this.balance = balance;

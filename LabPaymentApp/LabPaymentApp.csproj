@@ -107,6 +107,7 @@
     <Compile Include="ChargeScreen.xaml.cs">
       <DependentUpon>ChargeScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CheckFunction.cs" />
     <Compile Include="DatabaseAccess.cs" />
     <Compile Include="Datagrid.xaml.cs">
       <DependentUpon>Datagrid.xaml</DependentUpon>

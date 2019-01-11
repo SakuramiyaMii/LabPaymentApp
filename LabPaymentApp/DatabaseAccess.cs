@@ -22,8 +22,7 @@ namespace LabPaymentApp
             // .dbを置くフォルダは C:/Users/{UserName}/AppData/Local/Packages/72458304-e57a-4f5a-8c1e-136be572b2b9/LocalState
             // 参考資料：https://stackoverflow.com/questions/36899829/sqlite-database-location-uwp
             string db_Name = "lpa_db.sqlite3"; //データベースファイル名
-            //string db_Path = "Filename = C:\\Users\\ThinkPad\\Documents\\GitHub\\LabPaymentApp\\" + db_Name;
-            string db_Path = "./lpa_db.sqlite3";
+            string db_Path = "Filename = " + db_Name;
             SqliteConnection db = new SqliteConnection(db_Path);
 
             try
