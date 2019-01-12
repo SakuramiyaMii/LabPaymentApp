@@ -9,12 +9,12 @@ using Windows.UI.Xaml.Controls;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 
-namespace LabPaymentApp.Models
+namespace LabPaymentApp
 {
     /// <summary>
     /// Itemクラス
     /// </summary>
-    public class Item : INotifyPropertyChanged
+    class Item : INotifyPropertyChanged
     {
         // 変更が起きたときに呼び出されるやつ
         public event PropertyChangedEventHandler PropertyChanged;

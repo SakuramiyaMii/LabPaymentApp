@@ -12,7 +12,7 @@
     <Grid Width="1920" Height="1200">
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="91,55,0,0" VerticalAlignment="Top" Height="90" Width="219" FontSize="24" Click="Back_Button_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="91,164,0,0" Text="JANコード" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox x:Name="Jancode_Box" HorizontalAlignment="Left" Margin="91,184,0,0" Text="" VerticalAlignment="Top" Width="219"/>
+        <TextBox x:Name="Jancode_Box" HorizontalAlignment="Left" Margin="91,184,0,0" Text="" VerticalAlignment="Top" Width="219" KeyDown="Jancode_Box_KeyDown"/>
         <TextBlock HorizontalAlignment="Left" Margin="91,221,0,0" Text="出力結果" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="TestBox" HorizontalAlignment="Left" Margin="91,246,0,0" Text="" VerticalAlignment="Top" Width="219" Height="272"/>
         <Button x:Name="testbutton" Content="実行" HorizontalAlignment="Left" Height="32" Margin="250,152,0,0" VerticalAlignment="Top" Width="60" Click="testbutton_Click"/>

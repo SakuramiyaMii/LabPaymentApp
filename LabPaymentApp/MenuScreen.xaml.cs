@@ -36,6 +36,8 @@ namespace LabPaymentApp
             // 本番用
             // Check_Permission(StaticParam._permission);
             // デバッグ用
+            //(string _mid, string _user_name, int _balance, string permission) = e.Parameter;
+            
             Check_Permission(3);
         }
 

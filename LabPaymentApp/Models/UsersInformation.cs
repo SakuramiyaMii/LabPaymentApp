@@ -40,7 +40,7 @@ namespace LabPaymentApp
             this.mid = "";
             this.balance = -999;
             this.user_name = "";
-            this._permission = "";
+            this.permission = "";
         }
 
         public UsersInformation(string mid,string user_name, int balance, string permission)
@@ -48,7 +48,7 @@ namespace LabPaymentApp
             this.mid = mid;
             this.balance = balance;
             this.user_name = user_name;
-            this._permission = permission;
+            this.permission = permission;
         }
     }
 }

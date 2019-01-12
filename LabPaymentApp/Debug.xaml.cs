@@ -298,6 +298,21 @@ namespace LabPaymentApp
             Num_Name.Text = Num_Box.Text;
         }
 
+        private void Jancode_Box_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key == Windows.System.VirtualKey.Enter){
+                exec();
+            }
+        }
+
+        private async void exec()
+        {
+            string s = await RakutenSearchAPI.JAN_Search(Jancode_Box.Text);
+            TestBox.AcceptsReturn = true;
+            TestBox.Text = s;
+            Candidate_Set(s);
+        }
+
         // コンボボックスの内容が更新された際に呼び出されるメソッド
 
     }

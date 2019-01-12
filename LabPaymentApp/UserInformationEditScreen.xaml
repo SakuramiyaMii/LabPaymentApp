@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="Page_Loaded"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.UserInformationEditScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,12 +10,28 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Width="1920" Height="1200">
+    <Grid x:Name="Grid" Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="項目を選択すると編集できます" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <Button Content="各項目" HorizontalAlignment="Left" Margin="169,256,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="585" Width="1093" FontSize="72"/>
         <Button x:Name="User_Edit_Decide_Button" Content="確定" HorizontalAlignment="Left" Margin="1445,697,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="User_Edit_Decide_Button_Click"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
         <Button x:Name="User_Delete_Decide_Button" Content="削除" HorizontalAlignment="Left" Margin="960,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="User_Delete_Decide_Button_Click"/>
-
+        <TextBlock HorizontalAlignment="Left" Height="96" Margin="114,240,0,0" Text="mID" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" FontSize="48"/>
+        <TextBox x:Name="mid_TEXT" HorizontalAlignment="Left" Margin="114,309,0,0" Text="" VerticalAlignment="Top" FontSize="48" Width="620" PlaceholderText="mID" TextAlignment="Left" IsReadOnly="True"/>
+        <TextBlock HorizontalAlignment="Left" Height="80" Margin="114,391,0,0" Text="名前" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" FontSize="48"/>
+        <TextBox x:Name="userName_TEXT" HorizontalAlignment="Left" Height="80" Margin="114,460,0,0" Text="" VerticalAlignment="Top" Width="620" FontSize="48" PlaceholderText="名前"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="118,545,0,0" Text="残高" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" FontSize="48"/>
+        <TextBox x:Name="balance_TEXT" HorizontalAlignment="Left" Margin="114,614,0,0" Text="" VerticalAlignment="Top" FontSize="48" PlaceholderText="残高" Width="620"/>
+        <TextBlock HorizontalAlignment="Left" Margin="118,697,0,0" Text="権限" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="48"/>
+        <ComboBox x:Name="permisson_TEXT" HorizontalAlignment="Left" Margin="114,769,0,0" VerticalAlignment="Top" FontSize="48" Width="620">
+            <ComboBoxItem IsSelected="true">選択して下さい</ComboBoxItem>
+            <ComboBoxItem>利用者</ComboBoxItem>
+            <ComboBoxItem>仕入者</ComboBoxItem>
+            <ComboBoxItem>管理者</ComboBoxItem>
+        </ComboBox>
+        <ProgressRing x:Name="pr" HorizontalAlignment="Left" Margin="935,565,0,0" VerticalAlignment="Top" Height="127" Width="124" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <ProgressRing.RenderTransform>
+                <CompositeTransform Rotation="-0.03"/>
+            </ProgressRing.RenderTransform>
+        </ProgressRing>
     </Grid>
 </Page>

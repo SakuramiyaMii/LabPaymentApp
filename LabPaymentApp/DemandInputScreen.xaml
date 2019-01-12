@@ -11,7 +11,7 @@
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="仕入れ者に対する要望を入力することができます" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <TextBox HorizontalAlignment="Left" Height="363" Margin="289,295,0,0" Text="要望文" VerticalAlignment="Top" Width="1430" FontSize="72"/>
+        <TextBox x:Name="DEMAND_TEXT" HorizontalAlignment="Left" Height="363" Margin="289,295,0,0" Text="" VerticalAlignment="Top" Width="1430" FontSize="72" PlaceholderText="要望文を入力して下さい"/>
         <Button x:Name="Demand_Send_Button" Content="送信" HorizontalAlignment="Left" Margin="1282,697,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="218" Width="582" FontSize="72" Click="Demand_Send_Button_Click"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1446,943,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
 

@@ -34,6 +34,8 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class AuthenticationScreen : Page
     {
+        // タプル型のテスト
+        (string _mid, string _user_name, int _balance, string permission) user;
         // タイマー変数
         private DispatcherTimer _timer;
 
@@ -74,7 +76,7 @@ namespace LabPaymentApp
                         _timer.Stop();
                         StaticParam._mID = mID;
                         // 遷移
-                        Frame.Navigate(typeof(MenuScreen));
+                        Frame.Navigate(typeof(MenuScreen),user);
                     }
                     else{
                         // ダイアログ表示中も裏でタイマーが走るようなので一旦止めています。
@@ -93,7 +95,7 @@ namespace LabPaymentApp
             }
         }
 
-        private async void Auth_Comp_Button_Click(object sender, RoutedEventArgs e)
+        private void Auth_Comp_Button_Click(object sender, RoutedEventArgs e)
         {
             // タイマーの停止
             _timer.Stop();

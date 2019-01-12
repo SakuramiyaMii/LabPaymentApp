@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\DemandsInformation.cs" />
     <Compile Include="OperationFailureScreen.xaml.cs">
       <DependentUpon>OperationFailureScreen.xaml</DependentUpon>
     </Compile>
