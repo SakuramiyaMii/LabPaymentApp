@@ -23,6 +23,29 @@ namespace LabPaymentApp
             msgs.PrimaryButtonText = "OK";
             await msgs.ShowAsync();
         }
+
+        /// <summary>
+        /// JANコードの整合性チェックメソッド
+        /// 
+        /// </summary>
+        /// <returns>trueの場合正常,falseの場合異常を示す</returns>
+        public static bool JANCODE_Integrity_Check(string jan)
+        {
+            try
+            {
+                if(Regex.IsMatch(jan, @"^[0-9]{13}$") || Regex.IsMatch(jan, @"^[0-9]{8}$"))
+                {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// midの整合性チェックメソッド
         /// 

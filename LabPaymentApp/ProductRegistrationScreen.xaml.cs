@@ -77,5 +77,183 @@ namespace LabPaymentApp
             DataGrid dg = (DataGrid)sender;
             dg.SelectedItem = null;
         }
+
+        // JANCODE_BOXエンター押下処理
+        string last_jan = "1";
+        private async void JANCODE_TEXT_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                JANCODE_TEXT.IsReadOnly = true;
+                if(!CheckFunction.JANCODE_Integrity_Check(JANCODE_TEXT.Text)){
+                    JANCODE_TEXT.IsReadOnly = false;
+                    CheckFunction.Message_Show("Error", "JANコードが正しくありません");
+                    return;
+                }
+
+                try
+                {
+                    string s = await RakutenSearchAPI.JAN_Search(JANCODE_TEXT.Text);
+                    WORD_BOX.Text = s;
+                    Candidate_Set(s);
+                }
+                catch{
+                    CheckFunction.Message_Show("検索APIエラー","次の要因が考えられます。\n・インターネットに接続していない\n・短時間で複数回入力を行った\n・JANコードが入力されていない");
+                }
+                finally{
+                   
+                }
+
+                // 謎ポイント
+                // 初回、if (Items.First(x => x._janCode == last_jan)._janCode == JANCODE_TEXT.Text)でマッチするレコードがなかった場合例外発生、２回目以降は例外は発生せずelseに飛ぶ
+                // 応急措置として同じコードを書いています
+                // いろいろおかしい
+                try
+                {
+                    // リスト上に存在する場合
+                    if (Items.First(x => x._janCode == last_jan)._janCode == JANCODE_TEXT.Text)
+                    {
+                        last_jan = JANCODE_TEXT.Text;
+                        Items.First(x => x._janCode == last_jan)._num += 1;
+                    }else{
+                        // DB既登録の場合
+
+                        // DB未登録の場合
+                        Item item = new Item(JANCODE_TEXT.Text, "", 0, 0, 1);
+                        last_jan = JANCODE_TEXT.Text;
+                        Items.Add(item);
+                    }
+                }catch{ 
+                    // DB既登録の場合
+
+                    // DB未登録の場合
+                    Item item = new Item(JANCODE_TEXT.Text, "", 0, 0, 1);
+                    last_jan = JANCODE_TEXT.Text;
+                    Items.Add(item);
+                }
+
+                // 処理完了後
+                JANCODE_TEXT.Text = "";
+                JANCODE_TEXT.IsReadOnly = false;
+            }
+        }
+
+        // 候補ワードをボタンにセット
+        private void Candidate_Set(string str)
+        {
+            int count = 0;
+            for (int i = 1; i < 11; i++)
+            {
+                Button b = (Button)FindName("Candidate_" + (i.ToString()));
+                b.Content = "候補" + i.ToString();
+            }
+            string[] strSet = str.Split('\n');
+            foreach (string sub in strSet)
+            {
+                count++;
+                Button b = (Button)FindName("Candidate_" + (count.ToString()));
+                if (b != null)
+                {
+                    if (sub != null)
+                    {
+                        b.Content = sub;
+                    }
+                    else
+                    {
+                        b.Content = "該当無し";
+                    }
+                }
+            }
+        }
+
+        private void Candidate_1_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+        private void Candidate_2_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_3_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_4_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_5_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_6_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_7_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_8_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_9_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_10_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            ADD_itemName(bt.Content.ToString());
+        }
+
+        private void Candidate_Clear_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Items.First(x => x._janCode == last_jan)._itemName = "";
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }
+        }
+
+        // 最後に登録したJANコードレコードの商品名に文字列を加えるメソッド
+        private void ADD_itemName(string itemName){
+            try
+            {
+                if (Items.First(x => x._janCode == last_jan)._itemName == "")
+                {
+                    Items.First(x => x._janCode == last_jan)._itemName += itemName;
+                }
+                else
+                {
+                    Items.First(x => x._janCode == last_jan)._itemName += " " + itemName;
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }
+        }
     }
 }
