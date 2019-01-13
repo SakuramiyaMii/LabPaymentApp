@@ -63,7 +63,7 @@ namespace LabPaymentApp
             Frame.Navigate(typeof(MenuScreen));
         }
 
-        // 各レコードの削除ボタンで読み込まれるメソッド
+        // 各レコードの編集ボタンで読み込まれるメソッド
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             // イベントを発生させたボタンの取得

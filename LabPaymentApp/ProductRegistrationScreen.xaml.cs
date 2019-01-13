@@ -24,6 +24,8 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class ProductRegistrationScreen : Page
     {
+        // 前画面からのアイテムリスト(編集不可)
+        private ObservableCollection<Item> cItems = new ObservableCollection<Item>();
         // アイテムリストの定義(編集可能)
         private ObservableCollection<Item> Items = new ObservableCollection<Item>();
         // カテゴリリストの定義(編集不可)
@@ -36,16 +38,83 @@ namespace LabPaymentApp
             DataContext = this.GetItem();
         }
 
+
         // リストコレクション初期設定メソッド
         private ObservableCollection<Item> GetItem()
         {
-            Items.Add(new Item() { _janCode = "40352231964", _itemName = "ファンタグレープ 500ml", _categoryId = 0, _num = 24, _price = 80 });
             return Items;
+        }
+
+        // 別のページから遷移してきた時に呼び出されるメソッド
+        // 画面描画は完了していないのでLoadedメソッドを利用？
+        // 参照 : ttps://qiita.com/nagasakulllo/items/0b06ccc66b9fe0909b3f
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter != null) { 
+               cItems = e.Parameter as ObservableCollection<Item>;
+            }
         }
 
         private void Registration_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ProductRegistrationConfirmationScreen));
+            // Items整合性チェック
+            foreach(Item item in Items){
+                // 入力パラメータチェック
+                if (item._janCode == "")
+                {
+                    // JANコードが未入力です。
+                    CheckFunction.Message_Show("Error", item._janCode + "\nJANコードが未入力です。");
+                    return;
+                }
+                else if (item._itemName == "")
+                {
+                    // 商品名が未入力です。
+                    CheckFunction.Message_Show("Error", item._janCode + "\n商品名が未入力です。");
+                    return;
+                }
+                else if (item._price.ToString() == "")
+                {
+                    // 価格が未入力です。
+                    CheckFunction.Message_Show("Error", item._janCode + "\n価格が未入力です。");
+                    return;
+                }
+                else if (item._num.ToString() == "")
+                {
+                    // 在庫が未選択です。
+                    CheckFunction.Message_Show("Error", item._janCode + "\n在庫が未入力です。");
+                    return;
+                }
+                else if (item._categoryId == 0)
+                {
+                    // カテゴリが未選択です。
+                    CheckFunction.Message_Show("Error", item._janCode + "\nカテゴリが未選択です。");
+                    return;
+
+                }
+
+                // フォーマットチェック
+                if (!CheckFunction.JANCODE_Integrity_Check(item._janCode))
+                {
+                    CheckFunction.Message_Show("Error", item._janCode + "\nJANコードのフォーマットが間違っています。なんでこのエラー出たの？");
+                    return;
+                }
+                else if (!CheckFunction.itemName_Integrity_Check(item._itemName))
+                {
+                    CheckFunction.Message_Show("Error", item._janCode + "\n登録できる商品名は５０文字以下です。");
+                    return;
+                }
+                else if (!CheckFunction.price_Integrity_Check(item._price.ToString()))
+                {
+                    CheckFunction.Message_Show("Error", item._janCode + "\n登録できる価格は0～5000の値です。");
+                    return;
+                }
+                else if (!CheckFunction.num_Integrity_Check(item._num.ToString()))
+                {
+                    CheckFunction.Message_Show("Error", item._janCode + "\n登録できる在庫数は0～200の値です。");
+                    return;
+                }
+            }
+            Frame.Navigate(typeof(ProductRegistrationConfirmationScreen), Items);
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
@@ -88,6 +157,7 @@ namespace LabPaymentApp
                 if(!CheckFunction.JANCODE_Integrity_Check(JANCODE_TEXT.Text)){
                     JANCODE_TEXT.IsReadOnly = false;
                     CheckFunction.Message_Show("Error", "JANコードが正しくありません");
+                    JANCODE_TEXT.Text = "";
                     return;
                 }
 
@@ -111,26 +181,49 @@ namespace LabPaymentApp
                 try
                 {
                     // リスト上に存在する場合
-                    if (Items.First(x => x._janCode == last_jan)._janCode == JANCODE_TEXT.Text)
+                    if (Items.First(x => x._janCode == JANCODE_TEXT.Text)._janCode == JANCODE_TEXT.Text)
                     {
                         last_jan = JANCODE_TEXT.Text;
-                        Items.First(x => x._janCode == last_jan)._num += 1;
+                        Items.First(x => x._janCode == JANCODE_TEXT.Text)._num += 1;
                     }else{
+                        DatabaseAccess db = new DatabaseAccess();
+                        if(db.Search_Item(JANCODE_TEXT.Text)){
+                            // DB既登録の場合
+                            Item item = db.Get_Item(JANCODE_TEXT.Text);
+                            item._num = 1;
+                            last_jan = JANCODE_TEXT.Text;
+                            Items.Add(item);
+                            
+                        }
+                        else{
+                            // DB未登録の場合
+                            Item item = new Item(JANCODE_TEXT.Text, "", 0, 0, 1);
+                            last_jan = JANCODE_TEXT.Text;
+                            Items.Add(item);
+                        }
+                    }
+                }catch{
+                    DatabaseAccess db = new DatabaseAccess();
+                    if (db.Search_Item(JANCODE_TEXT.Text))
+                    {
                         // DB既登録の場合
+                        Item item = db.Get_Item(JANCODE_TEXT.Text);
+                        item._num = 1;
+                        last_jan = JANCODE_TEXT.Text;
+                        Items.Add(item);
 
+                    }
+                    else
+                    {
                         // DB未登録の場合
                         Item item = new Item(JANCODE_TEXT.Text, "", 0, 0, 1);
                         last_jan = JANCODE_TEXT.Text;
                         Items.Add(item);
                     }
-                }catch{ 
-                    // DB既登録の場合
-
-                    // DB未登録の場合
-                    Item item = new Item(JANCODE_TEXT.Text, "", 0, 0, 1);
-                    last_jan = JANCODE_TEXT.Text;
-                    Items.Add(item);
                 }
+
+                //DatabaseAccess db = new DatabaseAccess();
+                //db.Insert_Item(item);
 
                 // 処理完了後
                 JANCODE_TEXT.Text = "";
@@ -253,6 +346,14 @@ namespace LabPaymentApp
             catch
             {
                 System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (Item it in cItems)
+            {
+                Items.Add(it);
             }
         }
     }

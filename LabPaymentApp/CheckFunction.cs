@@ -47,6 +47,78 @@ namespace LabPaymentApp
         }
 
         /// <summary>
+        /// 商品名の整合性チェックメソッド
+        /// 
+        /// </summary>
+        /// <returns>trueの場合正常,falseの場合異常を示す</returns>
+        public static bool itemName_Integrity_Check(string itemName)
+        {
+            try
+            {
+                if (itemName.Length <= 50)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 値段の整合性チェックメソッド
+        /// 
+        /// </summary>
+        /// <returns>trueの場合正常,falseの場合異常を示す</returns>
+        public static bool price_Integrity_Check(string price)
+        {
+            try
+            {
+                if ((0 <= int.Parse(price)) && (5000 >= int.Parse(price)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 値段の整合性チェックメソッド
+        /// 
+        /// </summary>
+        /// <returns>trueの場合正常,falseの場合異常を示す</returns>
+        public static bool num_Integrity_Check(string num)
+        {
+            try
+            {
+                if ((0 <= int.Parse(num)) && (200 >= int.Parse(num)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// midの整合性チェックメソッド
         /// 
         /// </summary>
