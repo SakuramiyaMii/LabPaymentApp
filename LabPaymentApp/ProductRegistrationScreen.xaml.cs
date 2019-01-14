@@ -57,8 +57,13 @@ namespace LabPaymentApp
 
         private void Registration_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (Items.Count <= 0)
+            {
+                CheckFunction.Message_Show("Error", "商品が入力されていません");
+                return;
+            }
             // Items整合性チェック
-            foreach(Item item in Items){
+            foreach (Item item in Items){
                 // 入力パラメータチェック
                 if (item._janCode == "")
                 {

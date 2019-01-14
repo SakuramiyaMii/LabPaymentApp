@@ -370,6 +370,42 @@ namespace LabPaymentApp
         }
 
         /// <summary>
+        ///     Item_informationデータベースに引数として与えるjan_codeの商品がnum個存在するかどうか検索
+        /// </summary>
+        /// <param name="jan_code"> 検索したいjan_code </param>
+        /// <param name="num"> リクエストされた個数 </param>
+        /// <returns>
+        ///     検索結果 存在する->true,存在しない->false
+        /// </returns>
+        public bool isStocked_Item(string jan_code,int num)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT count(*) from Items_information where @jan_code = jan_code AND quantity >= @num", db);
+            command.Parameters.AddWithValue("@jan_code", jan_code);
+            command.Parameters.AddWithValue("@num", num);
+
+            bool ret;
+
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                query.Read();
+                if (query.GetInt32(0) == 1)
+                {
+                    ret = true;
+                }
+                else
+                {
+                    ret = false;
+                }
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+        /// <summary>
         ///     引数に与えたjan_codeに該当するレコードを削除
         /// </summary>
         /// <param name="jan_code"></param>
