@@ -1,0 +1,45 @@
+lpa_db.sqlite3
+
+
+テーブル名
+(カラム名<データ型>,カラム名<データ型>,...,カラム名<データ型>)
+
+ログテーブル
+(mID,種別,時間,操作ID)
+all_log
+(mid<TEXT>(PRIMARY KEY),operation_type<TEXT>,created_at<TEXT>,operation_id(INTEGER))
+
+購入テーブル
+(操作ID,JAN,個数,金額)
+purchases_log
+(operation_id<INTEGER>(PRIMARY KEY),jan_code<TEXT>,quantity<INTEGER>,price<INTEGER>)
+
+チャージテーブル
+(操作ID,金額)
+charges_log
+(operation_id<INTEGER>(PRIMARY KEY),price<INTEGER>)
+
+DB操作内容テーブル
+(操作ID,内容)
+operations_log
+(operation_id<INTEGER>(PRIMARY KEY),operation_detail<TEXT>)
+
+ユーザー情報テーブル
+(mID,残高,名前,権限)
+users_information
+(mid<TEXT>(PRIMARY KEY),balance<INTEGER>,user_name<TEXT>,permission<TEXT>)
+
+商品情報テーブル
+(JAN,名前,価格,個数,カテゴリ)
+products_information
+(jan_code<TEXT>(PRIMARY KEY),product_name<TEXT>,price<INTEGER>,quantity<INTEGER>,category_id<INTEGER>)
+
+要望テーブル
+(要望ID,日付,mID,内容)
+demands_log
+(demand_id<INTEGER>(PRIMARY KEY),created_at<TEXT>,mid<TEXT>,demand_detail<TEXT>)
+
+カテゴリテーブル(要作成)
+(カテゴリID,カテゴリ名)
+products_categories
+(categories_id<INTEGER>(PRIMARY KEY),categories_name<TEXT>)

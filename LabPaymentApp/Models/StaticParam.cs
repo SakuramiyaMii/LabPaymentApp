@@ -10,14 +10,17 @@ namespace LabPaymentApp
     // (こんなもん作っていいのか...？)
     class StaticParam
     {
-        // カードmID
+        // ログイン者のカードmID
         public static string _mID = "";
-        // ユーザー名
+        // ログイン者のユーザー名
         public static string _userName = "";
-        // 残高
+        // ログイン者の残高
         public static int _balance = 0;
-        // 権限レベル
+        // ログイン者の権限レベル
         public static int _permission = 0;
+
+        // 商品登録時の仕入れ値
+        public static int _siirePrice = 0;
 
         /// <summary>
         /// 初期化メソッド

@@ -34,6 +34,8 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class AuthenticationScreen : Page
     {
+        // タプル型のテスト
+        (string _mid, string _user_name, int _balance, string permission) user;
         // タイマー変数
         private DispatcherTimer _timer;
 
@@ -45,37 +47,58 @@ namespace LabPaymentApp
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e){
-            // タイマー生成
-            _timer = new DispatcherTimer();
-            // タイマーイベントの間隔設定(0.1秒間隔)
-            _timer.Interval = TimeSpan.FromSeconds(0.1);
-            _timer.Tick += Check_Card;
-            // タイマーをスタートする
-            _timer.Start();
+            // タイマーが既に作成されていた場合はStartだけ行う。(一度作成したタイマーは破棄されないため)
+            if (_timer == null)
+            {
+                // タイマー生成
+                _timer = new DispatcherTimer();
+                // タイマーイベントの間隔設定(1秒間隔)
+                _timer.Interval = TimeSpan.FromSeconds(1);
+                _timer.Tick += Check_Card;
+                _timer.Start();
+            }else{
+                _timer.Start();
+            }
         }
 
         // タイマー用メソッド
         // カードが翳された場合、画面遷移を行う
         private async void Check_Card(object sender, object e){
-            string mID = await Getmid();
-            if(mID != ""){
-                // タイマーの停止
-                _timer.Stop();
-                StaticParam._mID = mID;
-                // 遷移
-                Frame.Navigate(typeof(MenuScreen));
+            try
+            {
+                string mID = await Getmid();
+                if (mID != "")
+                {
+                    // mIDが登録されているかのチェック
+                    DatabaseAccess db = new DatabaseAccess();
+                    if(db.Search_UserInformation(mID)){
+                        // タイマーの停止
+                        _timer.Stop();
+                        StaticParam._mID = mID;
+                        // 遷移
+                        Frame.Navigate(typeof(MenuScreen),user);
+                    }
+                    else{
+                        // ダイアログ表示中も裏でタイマーが走るようなので一旦止めています。
+                        // CheckFunction.Show_Messageを使用していないのは非同期スレッドが立つらしく確認する前にタイマーがスタートしてしまう為
+                        _timer.Stop();
+                        var msg = new ContentDialog();
+                        msg.Title = "Error";
+                        msg.Content = "登録されていないカードです。";
+                        msg.PrimaryButtonText = "OK";
+                        await msg.ShowAsync();
+                        _timer.Start();
+                    }
+                }
+            }catch{
+
             }
         }
 
-        private async void Auth_Comp_Button_Click(object sender, RoutedEventArgs e)
+        private void Auth_Comp_Button_Click(object sender, RoutedEventArgs e)
         {
-            string mID = await Getmid();
-            if (mID != ""){
-                var dl = new MessageDialog(mID);
-                await dl.ShowAsync();
-            }
-            StaticParam._mID = mID;
-
+            // タイマーの停止
+            _timer.Stop();
             // 遷移
             Frame.Navigate(typeof(MenuScreen));
         }
@@ -110,17 +133,21 @@ namespace LabPaymentApp
             using (var con = await card.ConnectAsync())
             {
                 var handler = new AccessHandler(con);
-
-                var result = await handler.TransparentExchangeAsync(new byte[] { 6, 0, 0xff, 0xff, 0, 3 });
-                byte[] idm = new byte[8];
-                Array.Copy(result, 2, idm, 0, idm.Length);
-                string s = "";
-                foreach (byte b in idm)
-                {
-                    // 0x00がでたらループを抜けるならここにif文とかいれる
-                    s += b.ToString("X2");
+                try{
+                    var result = await handler.TransparentExchangeAsync(new byte[] { 6, 0, 0xff, 0xff, 0, 3 });
+                    byte[] idm = new byte[8];
+                    Array.Copy(result, 2, idm, 0, idm.Length);
+                    string s = "";
+                    foreach (byte b in idm)
+                    {
+                        // 0x00がでたらループを抜けるならここにif文とかいれる
+                        s += b.ToString("X2");
+                    }
+                    return s;
                 }
-                return s;
+                catch{
+                    return "";
+                }
             }
         }
 

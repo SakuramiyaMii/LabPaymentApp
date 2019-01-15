@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="Page_Loaded"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.ProductRegistrationConfirmationScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,14 +8,26 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="下記の内容で商品登録を行います" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <Button Content="表" HorizontalAlignment="Left" Margin="169,256,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="785" Width="597" FontSize="72"/>
-        <TextBlock HorizontalAlignment="Left" Margin="881,278,0,0" Text="仕入れ総額　XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
-        <Button x:Name="Registration_Decide_Button" Content="登録" HorizontalAlignment="Left" Margin="1445,708,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Registration_Decide_Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="163,970,0,0" Text="仕入れ総額　XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <Button x:Name="Registration_Decide_Button" Content="登録" HorizontalAlignment="Left" Margin="960,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Registration_Decide_Button_Click"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
-
+        <controls:DataGrid 
+            x:Name="dataGrid" 
+            Margin="289,197,342,516"
+            AutoGenerateColumns="false"
+            ItemsSource="{Binding}"  CurrentCellChanged="DataGrid_CurrentCellChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn FontSize="24" Header="JANコード" Binding="{Binding _janCode}"/>
+                <controls:DataGridTextColumn FontSize="24" Header="商品名" Binding="{Binding _itemName}"/>
+                <controls:DataGridTextColumn FontSize="24" Header="値段" Binding="{Binding _price}"/>
+                <controls:DataGridTextColumn FontSize="24" Header="個数" Binding="{Binding _num}"/>
+                <controls:DataGridComboBoxColumn FontSize="24" Header="カテゴリ名" Binding="{Binding _categoryId}" ItemsSource = "{x:Bind categoryList, Mode=OneWay}"  DisplayMemberPath="_categoryName" />
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
     </Grid>
 </Page>

@@ -29,7 +29,20 @@ namespace LabPaymentApp
 
         private void Demand_Send_Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(OperationSuccessfulScreen));
+            if(DEMAND_TEXT.Text == ""){
+                CheckFunction.Message_Show("Error", "要望文を入力して下さい。");
+                return;
+            }
+
+            DatabaseAccess db = new DatabaseAccess();
+            if(db.Insert_Demand(StaticParam._mID,DEMAND_TEXT.Text)){
+                CheckFunction.Message_Show("要望文の送信に成功しました。", "");
+                Frame.Navigate(typeof(MenuScreen));
+            }
+            else{
+                CheckFunction.Message_Show("Error","要望文の送信に失敗しました。");
+                return;
+            }
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)

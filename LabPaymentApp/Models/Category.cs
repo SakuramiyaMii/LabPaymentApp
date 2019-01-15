@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 /// 使用する際はCategories.categoryListを参照する
 /// </summary>
 
-namespace LabPaymentApp.Models
+namespace LabPaymentApp
 {
     public class Category
     {

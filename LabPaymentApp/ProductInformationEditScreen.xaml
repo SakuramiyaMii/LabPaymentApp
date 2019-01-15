@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="Page_Loaded"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.ProductInformationEditScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -11,10 +12,31 @@
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="項目を選択すると編集できます" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <Button Content="各項目" HorizontalAlignment="Left" Margin="169,256,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="585" Width="1093" FontSize="72"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
         <Button x:Name="Edit_Decide_Button" Content="確定" HorizontalAlignment="Left" Margin="1445,697,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Edit_Decide_Button_Click"/>
         <Button x:Name="Product_Delete_Button" Content="削除" HorizontalAlignment="Left" Margin="960,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Product_Delete_Button_Click"/>
 
+        <TextBlock HorizontalAlignment="Left" Height="96" Margin="114,240,0,0" Text="JANコード" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" FontSize="48"/>
+        <TextBox x:Name="janCode_TEXT" HorizontalAlignment="Left" Margin="114,309,0,0" Text="" VerticalAlignment="Top" FontSize="48" Width="620" PlaceholderText="JANコード" TextAlignment="Left" IsReadOnly="True"/>
+        <TextBlock HorizontalAlignment="Left" Height="80" Margin="114,391,0,0" Text="商品名" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" FontSize="48"/>
+        <TextBox x:Name="itemName_TEXT" HorizontalAlignment="Left" Height="80" Margin="114,460,0,0" Text="" VerticalAlignment="Top" Width="620" FontSize="48" PlaceholderText="商品名"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="118,545,0,0" Text="価格" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" FontSize="48"/>
+        <TextBox x:Name="price_TEXT" HorizontalAlignment="Left" Margin="114,614,0,0" Text="" VerticalAlignment="Top" FontSize="48" PlaceholderText="価格" Width="620"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="118,697,0,0" Text="在庫数" TextWrapping="Wrap" VerticalAlignment="Top" Width="212" FontSize="48"/>
+        <TextBox x:Name="num_TEXT" HorizontalAlignment="Left" Margin="114,768,0,0" Text="" VerticalAlignment="Top" FontSize="48" PlaceholderText="在庫数" Width="620"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="118,847,0,0" Text="カテゴリ" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="48"/>
+        <ComboBox x:Name="category_TEXT" HorizontalAlignment="Left" Margin="114,916,0,0" VerticalAlignment="Top" FontSize="48" Width="620">
+            <ComboBoxItem IsSelected="true">選択して下さい</ComboBoxItem>
+            <ComboBoxItem>水・飲料</ComboBoxItem>
+            <ComboBoxItem>カップ麺(ラーメン)</ComboBoxItem>
+            <ComboBoxItem>カップ麺(その他)</ComboBoxItem>
+            <ComboBoxItem>チョコレート菓子</ComboBoxItem>
+            <ComboBoxItem>スナック菓子</ComboBoxItem>
+            <ComboBoxItem>駄菓子</ComboBoxItem>
+            <ComboBoxItem>ファミリーパック菓子</ComboBoxItem>
+            <ComboBoxItem>アイス</ComboBoxItem>
+            <ComboBoxItem>その他</ComboBoxItem>
+        </ComboBox>
     </Grid>
 </Page>
