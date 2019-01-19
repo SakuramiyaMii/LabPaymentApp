@@ -7,7 +7,7 @@ lpa_db.sqlite3
 ログテーブル
 (mID,種別,時間,操作ID)
 all_log
-(mid<TEXT>(PRIMARY KEY),operation_type<TEXT>,created_at<TEXT>,operation_id(INTEGER))
+(mid<TEXT>,operation_type<TEXT>,created_at<TEXT>,operation_id(INTEGER)(PRIMARY KEY))
 
 購入テーブル
 (操作ID,JAN,個数,金額)

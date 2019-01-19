@@ -11,9 +11,7 @@
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="230" Margin="245,217,0,0" Text="カードをかざして下さい" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72"/>
-        <Button x:Name="Auth_Comp_Button" Content="カード認証完了" HorizontalAlignment="Left" Margin="1116,651,0,0" VerticalAlignment="Top" FontSize="72" Click="Auth_Comp_Button_Click"/>
-        <Button x:Name="Debug_Button" Content="商品登録デバッグ&#xD;&#xA;" HorizontalAlignment="Left" Margin="1116,600,0,0" VerticalAlignment="Top" Height="45" Width="249" FontSize="22" Click="Debug_Button_Click"/>
-        <Button x:Name="datagrid_test" Content="DataGridTest" HorizontalAlignment="Left" Margin="1116,563,0,0" VerticalAlignment="Top" Width="249" FontSize="22" Click="Datagrid_test_Click"/>
+        <Button x:Name="mode_toggle" Content="クイックペイ切替" HorizontalAlignment="Left" Margin="39,32,0,0" VerticalAlignment="Top" FontSize="48" Click="Mode_toggle_Click"/>
 
     </Grid>
 </Page>

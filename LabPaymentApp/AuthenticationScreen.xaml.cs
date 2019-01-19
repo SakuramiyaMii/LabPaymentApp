@@ -34,8 +34,6 @@ namespace LabPaymentApp
     /// </summary>
     public sealed partial class AuthenticationScreen : Page
     {
-        // タプル型のテスト
-        (string _mid, string _user_name, int _balance, string permission) user;
         // タイマー変数
         private DispatcherTimer _timer;
 
@@ -43,7 +41,7 @@ namespace LabPaymentApp
         {
             this.InitializeComponent();
             // フルスクリーン化
-            //Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e){
@@ -53,11 +51,11 @@ namespace LabPaymentApp
                 // タイマー生成
                 _timer = new DispatcherTimer();
                 // タイマーイベントの間隔設定(1秒間隔)
-                _timer.Interval = TimeSpan.FromSeconds(1);
-                _timer.Tick += Check_Card;
-                _timer.Start();
+                this._timer.Interval = TimeSpan.FromSeconds(1);
+                this._timer.Tick += Check_Card;
+                this._timer.Start();
             }else{
-                _timer.Start();
+                this._timer.Start();
             }
         }
 
@@ -73,32 +71,36 @@ namespace LabPaymentApp
                     DatabaseAccess db = new DatabaseAccess();
                     if(db.Search_UserInformation(mID)){
                         // タイマーの停止
-                        _timer.Stop();
-                        StaticParam._mID = mID;
+                        this._timer.Stop();
+                        // ユーザー情報の取得
+                        UsersInformation user = db.Get_UserInformation(mID);
+                        StaticParam._mID = user._mid;
+                        StaticParam._userName = user._user_name;
+                        StaticParam._balance = user._balance;
+                        StaticParam._permission = user._permission;
                         // 遷移
                         Frame.Navigate(typeof(MenuScreen),user);
                     }
                     else{
                         // ダイアログ表示中も裏でタイマーが走るようなので一旦止めています。
                         // CheckFunction.Show_Messageを使用していないのは非同期スレッドが立つらしく確認する前にタイマーがスタートしてしまう為
-                        _timer.Stop();
+                        this._timer.Stop();
                         var msg = new ContentDialog();
                         msg.Title = "Error";
                         msg.Content = "登録されていないカードです。";
                         msg.PrimaryButtonText = "OK";
                         await msg.ShowAsync();
-                        _timer.Start();
+                        this._timer.Start();
                     }
                 }
             }catch{
-
             }
         }
 
         private void Auth_Comp_Button_Click(object sender, RoutedEventArgs e)
         {
             // タイマーの停止
-            _timer.Stop();
+            this._timer.Stop();
             // 遷移
             Frame.Navigate(typeof(MenuScreen));
         }
@@ -134,6 +136,7 @@ namespace LabPaymentApp
             {
                 var handler = new AccessHandler(con);
                 try{
+
                     var result = await handler.TransparentExchangeAsync(new byte[] { 6, 0, 0xff, 0xff, 0, 3 });
                     byte[] idm = new byte[8];
                     Array.Copy(result, 2, idm, 0, idm.Length);
@@ -144,10 +147,10 @@ namespace LabPaymentApp
                         s += b.ToString("X2");
                     }
                     return s;
-                }
-                catch{
+               }
+               catch{
                     return "";
-                }
+               }
             }
         }
 
@@ -160,6 +163,27 @@ namespace LabPaymentApp
         private void Datagrid_test_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Datagrid));
+        }
+
+        private void Mode_toggle_Click(object sender, RoutedEventArgs e)
+        {
+            Enable_Toggle();
+            // タイマーの停止
+            this._timer.Stop();
+            Frame.Navigate(typeof(QuickPurchaseScreen));
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (mode_toggle.IsEnabled == true)
+            {
+                mode_toggle.IsEnabled = false;
+            }
+            else
+            {
+                mode_toggle.IsEnabled = true;
+            }
         }
     }
 }

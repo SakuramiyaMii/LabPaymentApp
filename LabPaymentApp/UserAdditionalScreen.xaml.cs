@@ -125,34 +125,42 @@ namespace LabPaymentApp
         // 追加決定ボタン押下イベント
         private void User_Add_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             // 入力パラメータチェック
             if(mid_TEXT.Text == ""){
                 // midが未入力です。
                 CheckFunction.Message_Show("Error","midが未入力です。");
+                Enable_Toggle();
                 return;
             }else if(userName_TEXT.Text == ""){
                 // 名前が未入力です。
                 CheckFunction.Message_Show("Error","名前が未入力です。");
+                Enable_Toggle();
                 return;
             }else if(balance_TEXT.Text == ""){
                 // 残高が未入力です。
                 CheckFunction.Message_Show("Error","残高が未入力です。");
+                Enable_Toggle();
                 return;
             }else if(permisson_TEXT.SelectedIndex == 0){
                 // 権限が未選択です。
                 CheckFunction.Message_Show("Error","権限が未選択です。");
+                Enable_Toggle();
                 return;
             }
 
             // フォーマットチェック
             if(!CheckFunction.mid_Integrity_Check(mid_TEXT.Text)){
                 CheckFunction.Message_Show("Error","midのフォーマットが間違っています。もしくは未対応のカードです。");
+                Enable_Toggle();
                 return;
             }else if(!CheckFunction.balance_Integrity_Check(balance_TEXT.Text)){
                 CheckFunction.Message_Show("Error", "初期登録できる残高は0～99999の値です。");
+                Enable_Toggle();
                 return;
             }else if(!CheckFunction.user_name_Integrity_Check(userName_TEXT.Text)){
                 CheckFunction.Message_Show("Error", "登録できる名前は25文字以下です。");
+                Enable_Toggle();
                 return;
             }
 
@@ -162,6 +170,7 @@ namespace LabPaymentApp
             if(db.Search_UserInformation(mid_TEXT.Text)){
                 // 既登録されています。
                 CheckFunction.Message_Show("Error", "このカードは既に登録されています。同じカードは登録できません。");
+                Enable_Toggle();
                 return;
             }
 
@@ -169,23 +178,42 @@ namespace LabPaymentApp
             UsersInformation ui = new UsersInformation(mid_TEXT.Text,userName_TEXT.Text,int.Parse(balance_TEXT.Text),((ComboBoxItem)permisson_TEXT.SelectedItem).Content as string);
             try{
                 db.Insert_UserInformation(ui);
+                db.Insert_Operation_Log(StaticParam._mID,"ユーザー登録(mID = " + ui._mid + ", ユーザー名 = " + ui._user_name + ", 残高 = " + ui._balance + ", 権限 = " + ui._permission + ")");
             }catch{
                 // タイマーストップ
                 _timer.Stop();
                 Frame.Navigate(typeof(OperationFailureScreen));
+                Enable_Toggle();
                 return;
             }
 
             // タイマーストップ
             _timer.Stop();
             // 画面遷移
-            Frame.Navigate(typeof(OperationSuccessfulScreen));
+            CheckFunction.Message_Show("ユーザーの追加に成功しました。","");
+            Frame.Navigate(typeof(UserListEditScreen));
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             _timer.Stop();
             Frame.Navigate(typeof(UserListEditScreen));
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Back_Button.IsEnabled == true)
+            {
+                Back_Button.IsEnabled = false;
+                User_Add_Decide_Button.IsEnabled = false;
+            }
+            else
+            {
+                Back_Button.IsEnabled = true;
+                User_Add_Decide_Button.IsEnabled = true;
+            }
         }
     }
 }

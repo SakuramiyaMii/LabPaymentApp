@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="Page_Loaded"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.AllHistoryViewScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,15 +8,38 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="利用者全体の決済履歴を表示します" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <Button Content="【表】" HorizontalAlignment="Left" Margin="122,378,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="585" Width="1284" FontSize="72"/>
-        <TextBlock HorizontalAlignment="Left" Height="103" Margin="122,211,0,0" Text="初期金額" TextWrapping="Wrap" VerticalAlignment="Top" Width="390" FontSize="72"/>
-        <TextBox HorizontalAlignment="Left" Height="96" Margin="458,211,0,0" Text="金額" VerticalAlignment="Top" Width="234" FontSize="72"/>
-        <Button Content="フィルタ関連" HorizontalAlignment="Left" Margin="1437,0,0,0" VerticalAlignment="Center" FontFamily="Segoe UI" Height="441" Width="449" FontSize="72"/>
+        <TextBlock HorizontalAlignment="Left" Height="68" Margin="1447,391,0,0" Text="初期金額" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" FontSize="48"/>
+        <TextBlock HorizontalAlignment="Left" Height="68" Margin="1788,461,0,0" Text="円" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" FontSize="48"/>
+        <TextBlock HorizontalAlignment="Left" Height="68" Margin="1445,667,0,0" Text="保有残高" TextWrapping="Wrap" VerticalAlignment="Top" Width="210" FontSize="48"/>
+        <TextBlock x:Name="All_Balance_TEXT" HorizontalAlignment="Left" Height="68" Margin="1447,736,0,0" Text="XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" Width="384" FontSize="48" TextAlignment="Right"/>
+        <TextBox x:Name="Balance_TEXT" HorizontalAlignment="Left" Height="77" Margin="1447,459,0,0" Text="" VerticalAlignment="Top" Width="336" FontSize="48" PlaceholderText="金額"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
+        <controls:DataGrid 
+            GridLinesVisibility="All"
+            x:Name="dataGrid" 
+            Margin="134,172,524,159"
+            AutoGenerateColumns="false"
+            CanUserSortColumns="True"
+            Sorting="dg_sorting"
+            ItemsSource="{Binding}"  CurrentCellChanged="DataGrid_CurrentCellChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Tag ="Date" IsReadOnly="True" FontSize="24" Header="日時" Binding="{Binding _date}"/>
+                <controls:DataGridTextColumn Tag ="Type" IsReadOnly="True" FontSize="24" Header="種別" Binding="{Binding _type}"/>
+                <controls:DataGridTextColumn Tag ="User" IsReadOnly="True" FontSize="24" Header="ユーザー名" Binding="{Binding _user_name}"/>
+                <controls:DataGridTextColumn Tag ="Item" IsReadOnly="True" FontSize="24" Header="商品名" Binding="{Binding _itemName}"/>
+                <controls:DataGridTextColumn Tag ="Num" IsReadOnly="True" FontSize="24" Header="個数" Binding="{Binding _num}"/>
+                <controls:DataGridTextColumn Tag ="Price" IsReadOnly="True" FontSize="24" Header="単価" Binding="{Binding _price}"/>
+                <controls:DataGridTextColumn Tag ="Total" IsReadOnly="True" FontSize="24" Header="金額" Binding="{Binding _total_price}"/>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+        <TextBox x:Name="Keyword_Box" HorizontalAlignment="Left" Margin="1447,205,0,0" Text="" VerticalAlignment="Top" PlaceholderText="フリーワード" FontSize="48" Width="384" KeyUp="Keyword_Box_KeyUp"/>
+        <Button x:Name="Search_Button" Content="検索" HorizontalAlignment="Left" Height="58" Margin="1681,299,0,0" VerticalAlignment="Top" Width="150" FontSize="36" Click="Search_Button_Click"/>
+        <Button x:Name="Set_Button" Content="設定" HorizontalAlignment="Left" Height="58" Margin="1681,555,0,0" VerticalAlignment="Top" Width="150" FontSize="36" Click="Set_Button_Click" />
 
     </Grid>
 </Page>

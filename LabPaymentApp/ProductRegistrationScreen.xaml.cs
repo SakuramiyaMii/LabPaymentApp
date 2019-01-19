@@ -57,9 +57,16 @@ namespace LabPaymentApp
 
         private void Registration_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
+            if(!int.TryParse(Use_Price.Text,out StaticParam._usePrice) || Use_Price.Text == ""){
+                CheckFunction.Message_Show("Error", "正しい仕入れ額を入力して下さい");
+                Enable_Toggle();
+                return;
+            }
             if (Items.Count <= 0)
             {
                 CheckFunction.Message_Show("Error", "商品が入力されていません");
+                Enable_Toggle();
                 return;
             }
             // Items整合性チェック
@@ -69,30 +76,35 @@ namespace LabPaymentApp
                 {
                     // JANコードが未入力です。
                     CheckFunction.Message_Show("Error", item._janCode + "\nJANコードが未入力です。");
+                    Enable_Toggle();
                     return;
                 }
                 else if (item._itemName == "")
                 {
                     // 商品名が未入力です。
                     CheckFunction.Message_Show("Error", item._janCode + "\n商品名が未入力です。");
+                    Enable_Toggle();
                     return;
                 }
                 else if (item._price.ToString() == "")
                 {
                     // 価格が未入力です。
                     CheckFunction.Message_Show("Error", item._janCode + "\n価格が未入力です。");
+                    Enable_Toggle();
                     return;
                 }
                 else if (item._num.ToString() == "")
                 {
                     // 在庫が未選択です。
                     CheckFunction.Message_Show("Error", item._janCode + "\n在庫が未入力です。");
+                    Enable_Toggle();
                     return;
                 }
                 else if (item._categoryId == 0)
                 {
                     // カテゴリが未選択です。
                     CheckFunction.Message_Show("Error", item._janCode + "\nカテゴリが未選択です。");
+                    Enable_Toggle();
                     return;
 
                 }
@@ -101,21 +113,25 @@ namespace LabPaymentApp
                 if (!CheckFunction.JANCODE_Integrity_Check(item._janCode))
                 {
                     CheckFunction.Message_Show("Error", item._janCode + "\nJANコードのフォーマットが間違っています。なんでこのエラー出たの？");
+                    Enable_Toggle();
                     return;
                 }
                 else if (!CheckFunction.itemName_Integrity_Check(item._itemName))
                 {
                     CheckFunction.Message_Show("Error", item._janCode + "\n登録できる商品名は５０文字以下です。");
+                    Enable_Toggle();
                     return;
                 }
                 else if (!CheckFunction.price_Integrity_Check(item._price.ToString()))
                 {
-                    CheckFunction.Message_Show("Error", item._janCode + "\n登録できる価格は0～5000の値です。");
+                    CheckFunction.Message_Show("Error", item._janCode + "\n登録できる価格は1～5000の値です。");
+                    Enable_Toggle();
                     return;
                 }
                 else if (!CheckFunction.num_Integrity_Check(item._num.ToString()))
                 {
                     CheckFunction.Message_Show("Error", item._janCode + "\n登録できる在庫数は0～200の値です。");
+                    Enable_Toggle();
                     return;
                 }
             }
@@ -124,6 +140,8 @@ namespace LabPaymentApp
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
+            StaticParam._usePrice = 0;
             Frame.Navigate(typeof(MenuScreen));
         }
 
@@ -142,14 +160,26 @@ namespace LabPaymentApp
             catch
             {
                 System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }finally{
+                JANCODE_TEXT.Focus(FocusState.Keyboard);
             }
-
         }
 
-        private void DataGrid_CurrentCellChanged(object sender, EventArgs e)
+        private async void DataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
             DataGrid dg = (DataGrid)sender;
-            dg.SelectedItem = null;
+            if (dg.SelectedItem == null) return;
+            Item item = dg.SelectedItem as Item;
+            last_jan = item._janCode;
+            try
+            {
+                string s = await RakutenSearchAPI.JAN_Search(item._janCode);
+                Candidate_Set(s);
+            }
+            catch
+            {
+                dg.SelectedItem = null;
+            }
         }
 
         // JANCODE_BOXエンター押下処理
@@ -169,11 +199,11 @@ namespace LabPaymentApp
                 try
                 {
                     string s = await RakutenSearchAPI.JAN_Search(JANCODE_TEXT.Text);
-                    WORD_BOX.Text = s;
                     Candidate_Set(s);
                 }
                 catch{
-                    CheckFunction.Message_Show("検索APIエラー","次の要因が考えられます。\n・インターネットに接続していない\n・短時間で複数回入力を行った\n・JANコードが入力されていない");
+                    JANCODE_TEXT.Text = "";
+                    return;
                 }
                 finally{
                    
@@ -332,6 +362,8 @@ namespace LabPaymentApp
             catch
             {
                 System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }finally{
+                JANCODE_TEXT.Focus(FocusState.Keyboard);
             }
         }
 
@@ -351,6 +383,8 @@ namespace LabPaymentApp
             catch
             {
                 System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }finally{
+                JANCODE_TEXT.Focus(FocusState.Keyboard);
             }
         }
 
@@ -359,6 +393,28 @@ namespace LabPaymentApp
             foreach (Item it in cItems)
             {
                 Items.Add(it);
+            }
+            Use_Price.Text = StaticParam._usePrice.ToString();
+            JANCODE_TEXT.Focus(FocusState.Keyboard);
+        }
+
+        private void DataGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            JANCODE_TEXT.Focus(FocusState.Keyboard);
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Back_Button.IsEnabled == true)
+            {
+                Back_Button.IsEnabled = false;
+                Registration_Decide_Button.IsEnabled = false;
+            }
+            else
+            {
+                Back_Button.IsEnabled = true;
+                Registration_Decide_Button.IsEnabled = true;
             }
         }
     }

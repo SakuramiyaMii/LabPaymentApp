@@ -13,10 +13,12 @@
     <Grid Width="1920" Height="1200">
         <controls:DataGrid 
             x:Name="dataGrid" 
-            Margin="249,260,770,158"
+            Margin="249,260,651,158"
             AutoGenerateColumns="false"
+            CanUserSortColumns="True"
+            Sorting="dg_sorting"
             ItemsSource="{Binding}"  CurrentCellChanged="DataGrid_CurrentCellChanged"
-            GridLinesVisibility="All" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            GridLinesVisibility="All">
             <!--ヘッダーのフォントサイズ変更(動いても良さそうだが動かない)
             <controls:DataGrid.ColumnHeaderStyle>
                  <Style TargetType="control:DataGrid">
@@ -25,10 +27,10 @@
             </controls:DataGrid.ColumnHeaderStyle>
             -->
             <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Width="270" IsReadOnly="True" FontSize="24" Header="mID" Binding="{Binding _mid}"/>
-                <controls:DataGridTextColumn Width="230" IsReadOnly="True" FontSize="24" Header="ユーザー名" Binding="{Binding _user_name}"/>
-                <controls:DataGridTextColumn Width="150" IsReadOnly="True" FontSize="24" Header="残高" Binding="{Binding _balance}"/>
-                <controls:DataGridTextColumn Width="150" IsReadOnly="True" FontSize="24" Header="権限" Binding="{Binding _permission}"/>
+                <controls:DataGridTextColumn Tag="mid" Width="270" IsReadOnly="True" FontSize="24" Header="mID" Binding="{Binding _mid}"/>
+                <controls:DataGridTextColumn Tag="User" Width="230" IsReadOnly="True" FontSize="24" Header="ユーザー名" Binding="{Binding _user_name}"/>
+                <controls:DataGridTextColumn Tag="Balance" Width="150" IsReadOnly="True" FontSize="24" Header="残高" Binding="{Binding _balance}"/>
+                <controls:DataGridTextColumn Tag="Permission" Width="150" IsReadOnly="True" FontSize="24" Header="権限" Binding="{Binding _permission}"/>
                 <controls:DataGridTemplateColumn Width="100" Header="編集ボタン">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -42,5 +44,7 @@
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
         <Button x:Name="User_Add_Button" Content="ユーザーの追加" HorizontalAlignment="Left" Margin="1325,750,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="539" FontSize="72" Click="User_Add_Button_Click"/>
 
+        <TextBox x:Name="Keyword_Box" HorizontalAlignment="Left" Margin="1463,260,0,0" Text="" VerticalAlignment="Top" PlaceholderText="フリーワード" FontSize="48" Width="384" KeyUp="Keyword_Box_KeyUp"/>
+        <Button x:Name="Search_Button" Content="検索" HorizontalAlignment="Left" Height="58" Margin="1697,359,0,0" VerticalAlignment="Top" Width="150" FontSize="36" Click="Search_Button_Click"/>
     </Grid>
 </Page>

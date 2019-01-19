@@ -33,102 +33,143 @@ namespace LabPaymentApp
         // 参照 : ttps://qiita.com/nagasakulllo/items/0b06ccc66b9fe0909b3f
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // 本番用
-            // Check_Permission(StaticParam._permission);
-            // デバッグ用
-            //(string _mid, string _user_name, int _balance, string permission) = e.Parameter;
-            
-            Check_Permission(3);
-        }
+            // ユーザー情報の再読込
+            CheckFunction.update_user();
 
-        // パーミッションチェックメソッド
-        private void Check_Permission(int perm)
-        {
-            switch (perm)
+            if (StaticParam._permission == "利用者")
             {
-                case 1: // 権限レベル1 : 利用者
-                    Product_Add_Button.IsEnabled = false;
-                    Product_Edit_Button.IsEnabled = false;
-                    User_Edit_Button.IsEnabled = false;
-                    break;
-                case 2: // 権限レベル2 : 仕入者
-                    User_Edit_Button.IsEnabled = false;
-                    break;
-                case 3: // 権限レベル3 : 管理者
-                    // 特に無し
-                    break;
-                default: // 権限レベル? : その他
-                    Product_Add_Button.IsEnabled = false;
-                    Product_Edit_Button.IsEnabled = false;
-                    User_Edit_Button.IsEnabled = false;
-                    break;
+                Product_Add_Button.IsEnabled = false;
+                Product_Edit_Button.IsEnabled = false;
+                User_Edit_Button.IsEnabled = false;
+            }
+            else if(StaticParam._permission == "仕入者")
+            {
+                User_Edit_Button.IsEnabled = false;
+            }
+            else if (StaticParam._permission == "管理者"){
+                // 特になし
+            }else{
+                Product_Add_Button.IsEnabled = false;
+                Product_Edit_Button.IsEnabled = false;
+                User_Edit_Button.IsEnabled = false;
             }
         }
+
+
 
         // ページ描画完了後に呼び出されるメソッド(xamlにて指定)
         private void setmID(object sender, RoutedEventArgs e)
         {
-            Username_Text.Text = StaticParam._mID;
+            Username_Text.Text = StaticParam._userName + " 様";
+            Balance_Text.Text = "残高 " + StaticParam._balance +" 円";
         }
 
         private void Purchase_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(ProductPurchaseScreen));
         }
 
         private void Charge_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(ChargeScreen));
         }
 
         private void Demand_Input_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(DemandInputScreen));
         }
 
         private void Demand_View_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(DemandViewScreen));
         }
 
         private void Personal_View_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(PersonalHistoryViewScreen));
         }
 
         private void All_View_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(AllHistoryViewScreen));
         }
 
         private void OP_View_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(OperationHistoryViewScreen));
         }
 
         private void Hotsell_View_Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HotSellingProductsViewScreen));
+            Enable_Toggle();
+            CheckFunction.Message_Show("未実装機能です。","近日実装予定");
+            Enable_Toggle();
+            //Frame.Navigate(typeof(HotSellingProductsViewScreen));
         }
 
         private void Product_Add_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(ProductRegistrationScreen));
         }
 
         private void Product_Edit_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(ProductListEditScreen));
         }
 
         private void User_Edit_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(UserListEditScreen));
         }
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(LogoutCompleteScreen));
+        }
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Logout_Button.IsEnabled == true)
+            {
+                Logout_Button.IsEnabled = false;
+                Charge_Button.IsEnabled = false;
+                Demand_Input_Button.IsEnabled = false;
+                Demand_View_Button.IsEnabled = false;
+                Hotsell_View_Button.IsEnabled = false;
+                Personal_View_Button.IsEnabled = false;
+                Product_Add_Button.IsEnabled = false;
+                Product_Edit_Button.IsEnabled = false;
+                All_View_Button.IsEnabled = false;
+                Purchase_Button.IsEnabled = false;
+                OP_View_Button.IsEnabled = false;
+                User_Edit_Button.IsEnabled = false;
+            }
+            else
+            {
+                Logout_Button.IsEnabled = true;
+                Charge_Button.IsEnabled = true;
+                Demand_Input_Button.IsEnabled = true;
+                Demand_View_Button.IsEnabled = true;
+                Hotsell_View_Button.IsEnabled = true;
+                Personal_View_Button.IsEnabled = true;
+                Product_Add_Button.IsEnabled = true;
+                Product_Edit_Button.IsEnabled = true;
+                All_View_Button.IsEnabled = true;
+                Purchase_Button.IsEnabled = true;
+                OP_View_Button.IsEnabled = true;
+                User_Edit_Button.IsEnabled = true;
+            }
         }
     }
 }

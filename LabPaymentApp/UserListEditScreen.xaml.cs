@@ -55,17 +55,22 @@ namespace LabPaymentApp
 
         private void User_Add_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(UserAdditionalScreen));
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(MenuScreen));
         }
 
         // 各レコードの編集ボタンで読み込まれるメソッド
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            Button bt = (Button)sender;
+            bt.IsEnabled = false;
+            Enable_Toggle();
             // イベントを発生させたボタンの取得
             Button b = (Button)sender;
             // DataGridの取得
@@ -79,6 +84,8 @@ namespace LabPaymentApp
             catch
             {
                 System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+                Enable_Toggle();
+                return;
             }
 
         }
@@ -91,5 +98,98 @@ namespace LabPaymentApp
             DataGrid dg = (DataGrid)sender;
             dg.SelectedItem = null;
         }
+
+        // ソート
+        // 直前に選択されていたcollumの保存変数
+        DataGridColumn c = null;
+        private void dg_sorting(object sender, DataGridColumnEventArgs e)
+        {
+            if (e.Column.Tag.ToString() == null) return;
+            // 直前に選ばれていたcollumが別ならアイコンを消しておく
+            if (c != e.Column && c != null) c.SortDirection = null;
+
+            if (e.Column.SortDirection == null || e.Column.SortDirection == DataGridSortDirection.Ascending)
+            {
+                // 選択collumが未選択・昇順状態であれば、降順にする
+                e.Column.SortDirection = DataGridSortDirection.Descending;
+
+                //選択Collumによって分岐
+                if (e.Column.Tag.ToString() == "mid")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._mid descending select i);
+                }
+                else if (e.Column.Tag.ToString() == "User")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._user_name descending select i);
+                }
+                else if (e.Column.Tag.ToString() == "Balance")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._balance descending select i);
+                }
+                else if (e.Column.Tag.ToString() == "Permission")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._permission descending select i);
+                }
+
+            }
+            else
+            {
+                // 選択collumが降順状態であれば、昇順にする
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
+
+                //選択Collumによって分岐
+                if (e.Column.Tag.ToString() == "mid")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._mid ascending select i);
+                }
+                else if (e.Column.Tag.ToString() == "User")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._user_name ascending select i);
+                }
+                else if (e.Column.Tag.ToString() == "Balance")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._balance ascending select i);
+                }
+                else if (e.Column.Tag.ToString() == "Permission")
+                {
+                    dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users orderby i._permission ascending select i);
+                }
+            }
+            // 現在選ばれていたcollumの保持
+            c = e.Column;
+        }
+
+        // リストに対してキーワードフィルターを適用するメソッド
+        // ちょっと無駄な実装をしている→無駄を取り除いた
+        private void Search_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Enable_Toggle();
+            dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users where i._mid.Contains(Keyword_Box.Text) | i._user_name.Contains(Keyword_Box.Text) | i._permission.Contains(Keyword_Box.Text) | i._balance.ToString().Contains(Keyword_Box.Text)  orderby i._mid descending select i);
+            Enable_Toggle();
+        }
+
+        private void Keyword_Box_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter){
+                dataGrid.ItemsSource = new ObservableCollection<UsersInformation>(from i in Users where i._mid.Contains(Keyword_Box.Text) | i._user_name.Contains(Keyword_Box.Text) | i._permission.Contains(Keyword_Box.Text) | i._balance.ToString().Contains(Keyword_Box.Text) orderby i._mid descending select i);
+            }
+        }
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Back_Button.IsEnabled == true)
+            {
+                Back_Button.IsEnabled = false;
+                User_Add_Button.IsEnabled = false;
+                Search_Button.IsEnabled = false;
+            }
+            else
+            {
+                Back_Button.IsEnabled = true;
+                User_Add_Button.IsEnabled = true;
+                Search_Button.IsEnabled = true;
+            }
+        }
+
     }
 }

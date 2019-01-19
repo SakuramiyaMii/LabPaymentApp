@@ -17,10 +17,10 @@ namespace LabPaymentApp
         // ログイン者の残高
         public static int _balance = 0;
         // ログイン者の権限レベル
-        public static int _permission = 0;
+        public static string _permission = "";
 
         // 商品登録時の仕入れ値
-        public static int _siirePrice = 0;
+        public static int _usePrice = 0;
 
         /// <summary>
         /// 初期化メソッド
@@ -29,7 +29,7 @@ namespace LabPaymentApp
             _mID = "";
             _userName = "";
             _balance = 0;
-            _permission = 0;
+            _permission = "";
         }    
     }
 }

@@ -29,8 +29,10 @@ namespace LabPaymentApp
 
         private void Demand_Send_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             if(DEMAND_TEXT.Text == ""){
                 CheckFunction.Message_Show("Error", "要望文を入力して下さい。");
+                Enable_Toggle();
                 return;
             }
 
@@ -41,13 +43,30 @@ namespace LabPaymentApp
             }
             else{
                 CheckFunction.Message_Show("Error","要望文の送信に失敗しました。");
+                Enable_Toggle();
                 return;
             }
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(MenuScreen));
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Back_Button.IsEnabled == true)
+            {
+                Back_Button.IsEnabled = false;
+                Demand_Send_Button.IsEnabled = false;
+            }
+            else
+            {
+                Back_Button.IsEnabled = true;
+                Demand_Send_Button.IsEnabled = true;
+            }
         }
     }
 }

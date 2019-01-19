@@ -57,15 +57,17 @@ namespace LabPaymentApp
 
         private void Purchase_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             if (Items.Count <= 0){
                 CheckFunction.Message_Show("Error","商品が入力されていません");
+                Enable_Toggle();
                 return;
             }
             DatabaseAccess db = new DatabaseAccess();
             foreach(Item checkItem in Items){
                 if(checkItem._num <= 0){
                     CheckFunction.Message_Show("Error", checkItem._itemName + "の購入数が0以下になっています。");
-                  
+                    Enable_Toggle();
                     return;
                 }
 
@@ -73,6 +75,7 @@ namespace LabPaymentApp
 
                 }else{
                     CheckFunction.Message_Show("Error",checkItem._itemName + "の在庫が不足しています。");
+                    Enable_Toggle();
                     return;
                 }
             }
@@ -82,6 +85,7 @@ namespace LabPaymentApp
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(MenuScreen));
         }
 
@@ -100,6 +104,8 @@ namespace LabPaymentApp
             catch
             {
                 System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }finally{
+                JANCODE_TEXT.Focus(FocusState.Keyboard);
             }
 
         }
@@ -108,7 +114,10 @@ namespace LabPaymentApp
         private void DataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
             DataGrid dg = (DataGrid)sender;
+            Item item = dg.SelectedItem as Item;
+            last_jan = item._janCode;
             dg.SelectedItem = null;
+            JANCODE_TEXT.Focus(FocusState.Keyboard);
         }
 
         // JANCODE_BOXエンター押下処理
@@ -187,74 +196,91 @@ namespace LabPaymentApp
 
         // テンキーここから
         // テンキーの対象とするテキストボックス名
-        string targetBox = "Num_Box";
         TextBox tb = new TextBox();
 
         private void _0_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "0";
+            ADD_Num("0");
         }
 
         private void _1_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "1";
+            ADD_Num("1");
         }
 
         private void _2_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "2";
+            ADD_Num("2");
         }
 
         private void _3_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "3";
+            ADD_Num("3");
         }
 
         private void _4_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "4";
+            ADD_Num("4");
         }
 
         private void _5_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "5";
+            ADD_Num("5");
         }
 
         private void _6_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "6";
+            ADD_Num("6");
         }
 
         private void _7_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "7";
+            ADD_Num("7");
         }
 
         private void _8_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "8";
+            ADD_Num("8");
         }
 
         private void _9_Button_Click(object sender, RoutedEventArgs e)
         {
-            tb = FindName(targetBox) as TextBox;
-            tb.Text += "9";
+            ADD_Num("9");
         }
 
         private void BS_Button_Click(object sender, RoutedEventArgs e)
         {
-            Num_Box.Text = Num_Box.Text.Substring(0, (Num_Box.Text.Length == 0 ? 1 : Num_Box.Text.Length) - 1);
+            try
+            {
+                if (Items.First(x => x._janCode == last_jan)._num.ToString().Length > 1)
+                {
+                    Items.First(x => x._janCode == last_jan)._num = int.Parse(Items.First(x => x._janCode == last_jan)._num.ToString().Substring(0, Items.First(x => x._janCode == last_jan)._num.ToString().Length - 1));
+                }else{
+                    Items.First(x => x._janCode == last_jan)._num = 0;
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }finally{
+                JANCODE_TEXT.Focus(FocusState.Keyboard);
+            }
         }
 
+        // 最後に登録したJANコードレコードの商品名に文字列を加えるメソッド
+        private void ADD_Num(string num)
+        {
+            try
+            {
+                Items.First(x => x._janCode == last_jan)._num = int.Parse(Items.First(x => x._janCode == last_jan)._num.ToString() == "0"? num.ToString() : Items.First(x => x._janCode == last_jan)._num.ToString() + num.ToString());
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("対象レコードが見つかりません");
+            }finally{
+                JANCODE_TEXT.Focus(FocusState.Keyboard);
+            }
+        }
 
         // テンキーここまで
 
@@ -263,6 +289,27 @@ namespace LabPaymentApp
             foreach (Item it in cItems)
             {
                 Items.Add(it);
+            }
+            JANCODE_TEXT.Focus(FocusState.Keyboard);
+        }
+
+        private void DataGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            JANCODE_TEXT.Focus(FocusState.Keyboard);
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Back_Button.IsEnabled == true)
+            {
+                Back_Button.IsEnabled = false;
+                Purchase_Decide_Button.IsEnabled = false;
+            }
+            else
+            {
+                Back_Button.IsEnabled = true;
+                Purchase_Decide_Button.IsEnabled = true;
             }
         }
     }

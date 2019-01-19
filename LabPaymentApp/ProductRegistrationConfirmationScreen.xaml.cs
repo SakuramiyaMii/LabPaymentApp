@@ -60,6 +60,7 @@ namespace LabPaymentApp
         // 登録確定イベント
         private void Registration_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             try
             {
                 DatabaseAccess db = new DatabaseAccess();
@@ -75,32 +76,54 @@ namespace LabPaymentApp
                         regItem._num += oldItem._num;
                         db.Delete_Item(regItem._janCode);
                         db.Insert_Item(regItem);
+                        db.Insert_Operation_Log(StaticParam._mID, "商品在庫更新(JANコード = " + regItem._janCode + ", 商品名 = " + oldItem._itemName + "→" + regItem._itemName + ", 価格 = " + oldItem._price + "→" + regItem._price + ", 在庫数 = " + oldItem._num + "→" + regItem._num + ")");
                     }
                     else
                     {
                         // DB上に存在していない場合
                         // →普通に登録
                         db.Insert_Item(regItem);
+                        db.Insert_Operation_Log(StaticParam._mID, "商品登録(JANコード = " + regItem._janCode + ", 商品名 = " + regItem._itemName + ", 価格 = " + regItem._price + ", 在庫数 = " + regItem._num + ")");
                     }
                 }
+                db.Insert_Charge_Log(StaticParam._mID,(StaticParam._usePrice * -1));
                 CheckFunction.Message_Show("商品の登録に成功しました。","");
+                StaticParam._usePrice = 0;
                 Frame.Navigate(typeof(MenuScreen));
             }
             catch{
                 CheckFunction.Message_Show("Error","DBの登録に失敗しました。");
+                Enable_Toggle();
             }
         }
 
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(ProductRegistrationScreen),Items);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            usePrice_TEXT.Text = StaticParam._usePrice.ToString() + "円";
             foreach (Item it in cItems)
             {
                 Items.Add(it);
+            }
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Back_Button.IsEnabled == true)
+            {
+                Back_Button.IsEnabled = false;
+                Registration_Decide_Button.IsEnabled = false;
+            }
+            else
+            {
+                Back_Button.IsEnabled = true;
+                Registration_Decide_Button.IsEnabled = true;
             }
         }
     }
