@@ -31,7 +31,7 @@ namespace LabPaymentApp
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Goto_Menu;
             // タイマーをスタートする
-            _timer.Start();
+            this._timer.Start();
         }
 
         private void Goto_Menu(object sender, object e)

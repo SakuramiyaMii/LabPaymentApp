@@ -25,18 +25,25 @@ namespace LabPaymentApp
         private DispatcherTimer _timer;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // タイマー生成
-            _timer = new DispatcherTimer();
-            // タイマーイベントの間隔設定(5秒間隔)
-            _timer.Interval = TimeSpan.FromSeconds(5);
-            _timer.Tick += Logout;
-            // タイマーをスタートする
-            _timer.Start();
+            // タイマーが既に作成されていた場合はStartだけ行う。(一度作成したタイマーは破棄されないため)
+            if (_timer == null)
+            {
+                // タイマー生成
+                _timer = new DispatcherTimer();
+                // タイマーイベントの間隔設定(1秒間隔)
+                _timer.Interval = TimeSpan.FromSeconds(5);
+                _timer.Tick += Logout;
+                this._timer.Start();
+            }
+            else
+            {
+                this._timer.Start();
+            }
         }
 
         private void Logout(object sender, object e){
             // タイマーの停止
-            _timer.Stop();
+            this._timer.Stop();
             // 保持情報の初期化
             StaticParam.init();
             // 認証画面への遷移
@@ -49,12 +56,26 @@ namespace LabPaymentApp
 
         private void Top_Transit_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             // タイマーの停止
-            _timer.Stop();
+            this._timer.Stop();
             // 保持情報の初期化
             StaticParam.init();
             // 認証画面への遷移
             Frame.Navigate(typeof(AuthenticationScreen));
+        }
+
+        // ボタン類のトグルメソッド
+        private void Enable_Toggle()
+        {
+            if (Top_Transit_Button.IsEnabled == true)
+            {
+                Top_Transit_Button.IsEnabled = false;
+            }
+            else
+            {
+                Top_Transit_Button.IsEnabled = true;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="Page_Loaded"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.ChargeConfirmationScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -11,10 +12,13 @@
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="下記の内容でチャージを行います" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <TextBlock HorizontalAlignment="Left" Margin="168,295,0,0" Text="九工大太郎 様" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
-        <TextBlock HorizontalAlignment="Left" Margin="164,469,0,0" Text="残高 XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
-        <TextBlock HorizontalAlignment="Left" Margin="160,649,0,0" Text="チャージ額 XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
-        <TextBlock HorizontalAlignment="Left" Margin="160,814,0,0" Text="チャージ後 XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock x:Name="userName_Text" HorizontalAlignment="Left" Margin="168,295,0,0" Text="九工大太郎 様" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock HorizontalAlignment="Left" Margin="164,469,0,0" Text="残高" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock x:Name="balance_Text" HorizontalAlignment="Left" Margin="376,469,0,0" Text="XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72" Width="409" TextAlignment="Right"/>
+        <TextBlock HorizontalAlignment="Left" Margin="160,649,0,0" Text="チャージ額" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock x:Name="charge_Text" HorizontalAlignment="Left" Margin="445,649,0,0" Text="XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72" Width="340" TextAlignment="Right"/>
+        <TextBlock HorizontalAlignment="Left" Margin="160,814,0,0" Text="チャージ後" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
+        <TextBlock x:Name="after_Text" HorizontalAlignment="Left" Margin="445,814,0,0" Text="XXXX円" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72" Width="340" TextAlignment="Right"/>
         <Button x:Name="Charge_Decide_Button" Content="チャージ" HorizontalAlignment="Left" Margin="1445,708,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Charge_Decide_Button_Click"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,897,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
 

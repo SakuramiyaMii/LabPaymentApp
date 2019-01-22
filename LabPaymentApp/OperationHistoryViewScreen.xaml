@@ -7,13 +7,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="操作履歴を表示します" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <Button Content="【表】" HorizontalAlignment="Left" Margin="103,234,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="727" Width="1284" FontSize="72"/>
-        <Button Content="フィルタ関連" HorizontalAlignment="Left" Margin="1435,234,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="441" Width="449" FontSize="72"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
+        <controls:DataGrid 
+            x:Name="dataGrid" 
+            Margin="117,191,56,347"
+            AutoGenerateColumns="false"
+            CanUserSortColumns="True"
+            Sorting="dg_sorting"
+            ItemsSource="{Binding}"  CurrentCellChanged="DataGrid_CurrentCellChanged">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Tag ="Date" IsReadOnly="True" FontSize="24" Header="日時" Binding="{Binding _date}"/>
+                <controls:DataGridTextColumn Tag ="User" IsReadOnly="True" FontSize="24" Header="ユーザー名" Binding="{Binding _user_name}"/>
+                <controls:DataGridTextColumn Tag ="Detail" IsReadOnly="True" FontSize="20" Header="操作内容" Binding="{Binding _detail}"/>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+        <TextBox x:Name="Keyword_Box" HorizontalAlignment="Left" Margin="117,893,0,0" Text="" VerticalAlignment="Top" PlaceholderText="フリーワード" FontSize="48" Width="384" KeyUp="Keyword_Box_KeyUp"/>
+        <Button x:Name="Search_Button" Content="検索" HorizontalAlignment="Left" Height="58" Margin="539,903,0,0" VerticalAlignment="Top" Width="150" FontSize="36" Click="Search_Button_Click"/>
 
     </Grid>
 </Page>

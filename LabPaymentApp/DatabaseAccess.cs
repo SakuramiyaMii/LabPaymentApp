@@ -70,6 +70,35 @@ namespace LabPaymentApp
         }
 
         /// <summary>
+        ///     users_infomationデータベースから指定したmidのユーザ情報を取得
+        /// </summary>
+        /// <returns>
+        ///     UsersInfomation : UsersInfomationクラスを参照
+        /// </returns>
+        public UsersInformation Get_UserInformation(string mid)
+        {
+            if (!Search_UserInformation(mid)) return new UsersInformation(mid,"削除ユーザー",-1,"利用者");
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT * from users_information where @mid = mid", db);
+            command.Parameters.AddWithValue("@mid", mid);
+
+            UsersInformation ret = new UsersInformation();
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                query.Read();
+                ret._mid = query.GetString(0);
+                ret._balance = query.GetInt32(1);
+                ret._user_name = query.GetString(2);
+                ret._permission = query.GetString(3);
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+        /// <summary>
         ///     UserInformationデータベースに引数として与えるmidを含むレコードが存在するかどうか検索
         /// </summary>
         /// <param name="mid"> 検索したいmid </param>
@@ -164,6 +193,100 @@ namespace LabPaymentApp
             }
 
             return true;
+        }
+
+        /// <summary>
+        ///     UserInformationテーブルに引数として与えるmidの持つbalanceが引数price以上あるかどうかチェック
+        /// </summary>
+        /// <param name="mid"> チェック対象のmid </param>
+        /// <param name="price"> リクエスト金額 </param>
+        /// <returns>
+        ///     検索結果 決済可能->true,決済不可->false
+        /// </returns>
+        public bool Check_Payment(string mid, int price)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT count(*) from users_information where @mid = mid AND balance >= @price", db);
+            command.Parameters.AddWithValue("@mid", mid);
+            command.Parameters.AddWithValue("@price", price);
+
+            bool ret;
+
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                query.Read();
+                if (query.GetInt32(0) == 1)
+                {
+                    ret = true;
+                }
+                else
+                {
+                    ret = false;
+                }
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+
+
+        /// <summary>
+        ///     UserInformationテーブルに引数として与えるmidの持つbalanceからpriceを減算
+        /// </summary>
+        /// <param name="mid"> チェック対象のmid </param>
+        /// <param name="price"> リクエスト金額 </param>
+        /// <returns>
+        ///     検索結果 決済成功->true,決済失敗->false
+        /// </returns>
+        public bool Exec_Payment(string mid, int price)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("UPDATE users_information SET balance = balance - @price where @mid = mid AND balance >= @price", db);
+            command.Parameters.AddWithValue("@mid", mid);
+            command.Parameters.AddWithValue("@price", price);
+
+            try{
+                SqliteDataReader query = command.ExecuteReader();
+                db.Close();
+                return true;
+            }
+            catch{
+                db.Close();
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     UserInformationテーブルに引数として与えるmidの持つbalanceにpriceを加算
+        /// </summary>
+        /// <param name="mid"> チェック対象のmid </param>
+        /// <param name="price"> リクエスト金額 </param>
+        /// <returns>
+        ///     検索結果 決済成功->true,決済失敗->false
+        /// </returns>
+        public bool Exec_Charge(string mid, int price)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("UPDATE users_information SET balance = balance + @price where @mid = mid", db);
+            command.Parameters.AddWithValue("@mid", mid);
+            command.Parameters.AddWithValue("@price", price);
+
+            try
+            {
+                SqliteDataReader query = command.ExecuteReader();
+                db.Close();
+                return true;
+            }
+            catch
+            {
+                db.Close();
+                return false;
+            }
         }
 
         // UserInformation[end] ----------------------------------------------------------------------------------
@@ -277,6 +400,7 @@ namespace LabPaymentApp
         /// </returns>
         public Item Get_Item(string jan_code)
         {
+            if (!Search_Item(jan_code)) return new Item(jan_code,"削除商品",0,0,0);
             SqliteConnection db = this.OpenDB();
 
             SqliteCommand command = new SqliteCommand("SELECT * from Items_information where @jan_code = jan_code", db);
@@ -370,6 +494,42 @@ namespace LabPaymentApp
         }
 
         /// <summary>
+        ///     Item_informationデータベースに引数として与えるjan_codeの商品がnum個存在するかどうか検索
+        /// </summary>
+        /// <param name="jan_code"> 検索したいjan_code </param>
+        /// <param name="num"> リクエストされた個数 </param>
+        /// <returns>
+        ///     検索結果 存在する->true,存在しない->false
+        /// </returns>
+        public bool isStocked_Item(string jan_code,int num)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT count(*) from Items_information where @jan_code = jan_code AND quantity >= @num", db);
+            command.Parameters.AddWithValue("@jan_code", jan_code);
+            command.Parameters.AddWithValue("@num", num);
+
+            bool ret;
+
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                query.Read();
+                if (query.GetInt32(0) == 1)
+                {
+                    ret = true;
+                }
+                else
+                {
+                    ret = false;
+                }
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+        /// <summary>
         ///     引数に与えたjan_codeに該当するレコードを削除
         /// </summary>
         /// <param name="jan_code"></param>
@@ -399,9 +559,376 @@ namespace LabPaymentApp
             return true;
         }
 
+        /// <summary>
+        ///     Item_informationテーブルに引数として与えるjancodeのquantityを引数numだけ減算する
+        /// </summary>
+        /// <param name="jan"> JANコード </param>
+        /// <param name="num"> リクエスト個数 </param>
+        /// <returns>
+        ///     検索結果 決済成功->true,決済失敗->false
+        /// </returns>
+        public bool Reduce_Item(string jan, int num)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("UPDATE Items_information SET quantity = quantity - @num where @jan = jan_code AND quantity >= @num", db);
+            command.Parameters.AddWithValue("@jan", jan);
+            command.Parameters.AddWithValue("@num", num);
+
+            try
+            {
+                SqliteDataReader query = command.ExecuteReader();
+                db.Close();
+                return true;
+            }
+            catch
+            {
+                db.Close();
+                return false;
+            }
+        }
 
         // Item[end] ---------------------------------------------------------------------------------------------
 
+
+        // Log ---------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        ///     all_logテーブルにログを追加
+        /// </summary>
+        /// <param name="mid"> ログ発生者のmid </param>
+        /// <param name="type"> 操作種別 </param>
+        /// <returns>
+        ///     成功 -> true , 失敗 -> false
+        /// </returns>
+        private bool Insert_All_Log(string type,string mid)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("INSERT INTO all_log(created_at,mid,operation_type) VALUES(datetime('now','localtime'),@mid,@str)", db);
+            command.Parameters.AddWithValue("@mid", mid);
+            command.Parameters.AddWithValue("@str", type);
+            
+            try
+            {
+                command.ExecuteReader();
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     purchases_logテーブルにログを追加
+        /// </summary>
+        /// <param name="mid"> ログ発生者のmid </param>
+        /// <param name="jan"> 購入商品のJANコード </param>
+        /// <param name="num"> 購入商品の個数 </param>
+        /// <param name="price"> 購入商品の単価 </param>
+        /// <returns>
+        ///     成功 -> true , 失敗 -> false
+        /// </returns>
+        public bool Insert_Purchase_Log(string mid,string jan,int num,int price)
+        {
+            Insert_All_Log("購入",mid);
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("INSERT INTO purchases_log(operation_id,jan_code,quantity,price) VALUES((SELECT max(operation_id) from all_log),@jan,@num,@price)", db);
+            command.Parameters.AddWithValue("@jan", jan);
+            command.Parameters.AddWithValue("@num", num);
+            command.Parameters.AddWithValue("@price", price);
+
+            try
+            {
+                command.ExecuteReader();
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     charges_logテーブルにログを追加
+        /// </summary>
+        /// <param name="mid"> ログ発生者のmid </param>
+        /// <param name="price"> チャージ額 </param>
+        /// <returns>
+        ///     成功 -> true , 失敗 -> false
+        /// </returns>
+        public bool Insert_Charge_Log(string mid, int price)
+        {
+            if (price <= 0)
+            {
+                Insert_All_Log("仕入れ", mid);
+            }
+            else
+            {
+                Insert_All_Log("チャージ", mid);
+            }
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("INSERT INTO charges_log(operation_id,price) VALUES((SELECT max(operation_id) from all_log),@price)", db);
+            command.Parameters.AddWithValue("@price", price);
+
+            try
+            {
+                command.ExecuteReader();
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     operations_logテーブルにログを追加
+        /// </summary>
+        /// <param name="mid"> ログ発生者のmid </param>
+        /// <param name="str"> 操作内容 </param>
+        /// <returns>
+        ///     成功 -> true , 失敗 -> false
+        /// </returns>
+        public bool Insert_Operation_Log(string mid, string str)
+        {
+            Insert_All_Log("DB操作", mid);
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("INSERT INTO operations_log(operation_id,operation_detail) VALUES((SELECT max(operation_id) from all_log),@str)", db);
+            command.Parameters.AddWithValue("@str", str);
+
+            try
+            {
+                command.ExecuteReader();
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///     all_logデータベースから全ての購入・チャージレコードを取得
+        /// </summary>
+        /// <returns>
+        ///     List<PaymentLog> : PaymentLogクラスを参照
+        /// </returns>
+        public List<PaymentLog> Get_AllPayment()
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT * from all_log where operation_type = '購入' OR operation_type = 'チャージ' OR operation_type = '仕入れ'", db);
+
+            List<PaymentLog> ret = new List<PaymentLog>();
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                while (query.Read())
+                {
+                    PaymentLog pl = new PaymentLog();
+                    pl._id = query.GetInt32(0);
+                    pl._date = query.GetString(1);
+                    pl._mid = query.GetString(2);
+                    pl._type = query.GetString(3);
+
+                    ret.Add(pl);
+                }
+            }
+            foreach (PaymentLog pl in ret) {
+                // user_name 取得
+                if (Search_UserInformation(pl._mid))
+                {
+                    command = new SqliteCommand("SELECT * from users_information where @mid = mid", db);
+                    command.Parameters.AddWithValue("@mid", pl._mid);
+                    using (SqliteDataReader query = command.ExecuteReader())
+                    {
+                        query.Read();
+                        pl._user_name = query.GetString(2);
+                    }
+                }else{
+                    pl._user_name = "削除ユーザー";
+                }
+
+                if(pl._type == "購入"){
+                    command = new SqliteCommand("SELECT * from purchases_log where @id = operation_id", db);
+                    command.Parameters.AddWithValue("@id", pl._id);
+                    using (SqliteDataReader query = command.ExecuteReader())
+                    {
+                        query.Read();
+                        pl._janCode = query.GetString(1);
+                        pl._num = query.GetInt32(2);
+                        pl._price = query.GetInt32(3);
+                        pl._total_price = pl._num * pl._price;
+                    }
+
+                    if (Search_Item(pl._janCode))
+                    {
+                        command = new SqliteCommand("SELECT * from Items_information where @janCode = jan_code", db);
+                        command.Parameters.AddWithValue("@janCode", pl._janCode);
+                        using (SqliteDataReader query = command.ExecuteReader())
+                        {
+                            query.Read();
+                            pl._itemName = query.GetString(1);
+                        }
+                    }else{
+                        pl._itemName = "削除商品";
+                    }
+
+                }
+                else if(pl._type == "チャージ"|| pl._type == "仕入れ")
+                {
+                    command = new SqliteCommand("SELECT * from charges_log where @id = operation_id", db);
+                    command.Parameters.AddWithValue("@id", pl._id);
+                    using (SqliteDataReader query = command.ExecuteReader())
+                    {
+                        query.Read();
+                        pl._total_price = query.GetInt32(1);
+                    }
+                }
+
+            }
+            db.Close();
+
+            return ret;
+        }
+
+        /// <summary>
+        ///     all_logデータベースから全てのDB操作レコードを取得
+        /// </summary>
+        /// <returns>
+        ///     List<OperationLos> : OperationLogクラスを参照
+        /// </returns>
+        public List<OperationLog> Get_AllOperation()
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT * from all_log where operation_type = 'DB操作'", db);
+
+            List<OperationLog> ret = new List<OperationLog>();
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                while (query.Read())
+                {
+                    OperationLog ol = new OperationLog();
+                    ol._id = query.GetInt32(0);
+                    ol._date = query.GetString(1);
+                    ol._mid = query.GetString(2);
+
+                    ret.Add(ol);
+                }
+            }
+            foreach (OperationLog ol in ret)
+            {
+                // user_name 取得
+                if (Search_UserInformation(ol._mid))
+                {
+                    command = new SqliteCommand("SELECT * from users_information where @mid = mid", db);
+                    command.Parameters.AddWithValue("@mid", ol._mid);
+                    using (SqliteDataReader query = command.ExecuteReader())
+                    {
+                        query.Read();
+                        ol._user_name = query.GetString(2);
+                    }
+                }else{
+                    ol._user_name = "削除ユーザー";
+                }
+
+                // DB操作内容取得
+                {
+                    command = new SqliteCommand("SELECT * from operations_log where @id = operation_id", db);
+                    command.Parameters.AddWithValue("@id", ol._id);
+                    using (SqliteDataReader query = command.ExecuteReader())
+                    {
+                        query.Read();
+                        ol._detail = query.GetString(1);
+                    }
+                }
+            }
+            db.Close();
+
+            return ret;
+        }
+        // Log[end] ----------------------------------------------------------------------------------------------
+
+        // Default -----------------------------------------------------------------------------------------------
+
+        /// <summary>
+        ///     default_balanceテーブルに引数として与えるbalanceで更新する
+        /// </summary>
+        /// <param name="balance"> 設定金額 </param>
+        /// <returns>
+        ///     検索結果 決済成功->true,決済失敗->false
+        /// </returns>
+        public bool Set_Balance(int balance)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("UPDATE default_balance SET balance = @balance", db);
+            command.Parameters.AddWithValue("@balance", balance);
+
+            try
+            {
+                SqliteDataReader query = command.ExecuteReader();
+                db.Close();
+                return true;
+            }
+            catch
+            {
+                db.Close();
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     default_balanceテーブルからbalanceを取得する
+        /// </summary>
+        /// <returns>
+        ///     初期金額
+        /// </returns>
+        public int Get_Balance()
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT * from default_balance", db);
+
+            int ret;
+
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                query.Read();
+                ret = query.GetInt32(0);
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+        // Default[End] ------------------------------------------------------------------------------------------
         // TODO:上みたいな感じの関数を複数書く
     }
 }

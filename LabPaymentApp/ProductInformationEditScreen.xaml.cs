@@ -105,6 +105,7 @@ namespace LabPaymentApp
                 db.Delete_Item(item._janCode);
                 Item add_item = new Item(janCode_TEXT.Text,itemName_TEXT.Text,category_TEXT.SelectedIndex,int.Parse(price_TEXT.Text),int.Parse(num_TEXT.Text));
                 db.Insert_Item(add_item);
+                db.Insert_Operation_Log(StaticParam._mID, "商品情報更新(JANコード = " + add_item._janCode + ", 商品名 = " + item._itemName + "→" + add_item._itemName + ", 価格 = " + item._price + "→" + add_item._price + ", 在庫数 = " + item._num + "→" + add_item._num + ")");
                 CheckFunction.Message_Show(add_item._itemName + " の情報を更新しました。", "");
                 Frame.Navigate(typeof(ProductListEditScreen));
             }
@@ -137,6 +138,7 @@ namespace LabPaymentApp
                 if (db.Search_Item(item._janCode))
                 {
                     db.Delete_Item(item._janCode);
+                    db.Insert_Operation_Log(StaticParam._mID, "商品削除(JANコード = " + item._janCode + ", 商品名 = " + item._itemName + ", 価格 = " + item._price + ", 在庫数 = " + item._num + ")");
                     CheckFunction.Message_Show(item._itemName + " の削除に成功しました。", "");
                     Frame.Navigate(typeof(ProductListEditScreen));
                 }

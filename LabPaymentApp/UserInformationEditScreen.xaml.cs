@@ -47,29 +47,34 @@ namespace LabPaymentApp
 
         private void User_Edit_Decide_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             // 入力パラメータチェック
             if (mid_TEXT.Text == "")
             {
                 // midが未入力です。
                 CheckFunction.Message_Show("Error", "midが未入力です。");
+                Enable_Toggle();
                 return;
             }
             else if (userName_TEXT.Text == "")
             {
                 // 名前が未入力です。
                 CheckFunction.Message_Show("Error", "名前が未入力です。");
+                Enable_Toggle();
                 return;
             }
             else if (balance_TEXT.Text == "")
             {
                 // 残高が未入力です。
                 CheckFunction.Message_Show("Error", "残高が未入力です。");
+                Enable_Toggle();
                 return;
             }
             else if (permisson_TEXT.SelectedIndex == 0)
             {
                 // 権限が未選択です。
                 CheckFunction.Message_Show("Error", "権限が未選択です。");
+                Enable_Toggle();
                 return;
             }
 
@@ -77,25 +82,28 @@ namespace LabPaymentApp
             if (!CheckFunction.mid_Integrity_Check(mid_TEXT.Text))
             {
                 CheckFunction.Message_Show("Error", "midのフォーマットが間違っています。もしくは未対応のカードです。");
+                Enable_Toggle();
                 return;
             }
             else if (!CheckFunction.balance_Integrity_Check(balance_TEXT.Text))
             {
                 CheckFunction.Message_Show("Error", "登録できる残高は0～99999の値です。");
+                Enable_Toggle();
                 return;
             }
             else if (!CheckFunction.user_name_Integrity_Check(userName_TEXT.Text))
             {
                 CheckFunction.Message_Show("Error", "登録できる名前は25文字以下です。");
+                Enable_Toggle();
                 return;
             }
 
-            Enable_Toggle();
             DatabaseAccess db = new DatabaseAccess();
             if(db.Search_UserInformation(ui._mid)){
                 db.Delete_UserInformation(ui._mid);
                 UsersInformation add_ui = new UsersInformation(mid_TEXT.Text, userName_TEXT.Text,int.Parse(balance_TEXT.Text),((ComboBoxItem)permisson_TEXT.SelectedItem).Content as string);
                 db.Insert_UserInformation(add_ui);
+                db.Insert_Operation_Log(StaticParam._mID, "ユーザー情報更新(mID = " + add_ui._mid + ", ユーザー名 = " + ui._user_name + "→" + add_ui._user_name + ", 残高 = " + ui._balance + "→" + add_ui._balance + ", 権限 = " + ui._permission + "→" + add_ui._permission + ")");
                 CheckFunction.Message_Show(add_ui._user_name + " の情報を更新しました。", "");
                 Frame.Navigate(typeof(UserListEditScreen));
             }
@@ -109,6 +117,7 @@ namespace LabPaymentApp
         // 戻る
         private void Back_Button_Click(object sender, RoutedEventArgs e)
         {
+            Enable_Toggle();
             Frame.Navigate(typeof(UserListEditScreen));
         }
 
@@ -127,11 +136,14 @@ namespace LabPaymentApp
                 DatabaseAccess db = new DatabaseAccess();
                 if(db.Search_UserInformation(ui._mid)){
                     db.Delete_UserInformation(ui._mid);
+                    db.Insert_Operation_Log(StaticParam._mID, "ユーザー削除(mID = " + ui._mid + ", ユーザー名 = " + ui._user_name + ", 残高 = " + ui._balance + ", 権限 = " + ui._permission + ")");
                     CheckFunction.Message_Show(ui._user_name + " の削除に成功しました。","");
                     Frame.Navigate(typeof(UserListEditScreen));
                 }
                 else{
                     CheckFunction.Message_Show("Error", "DB上に対象のmIDが存在しません。");
+                    Enable_Toggle();
+                    return;
                 }
             }else if(result == ContentDialogResult.Secondary){
                 // Cancelの場合

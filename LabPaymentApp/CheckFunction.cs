@@ -79,7 +79,7 @@ namespace LabPaymentApp
         {
             try
             {
-                if ((0 <= int.Parse(price)) && (5000 >= int.Parse(price)))
+                if ((1 <= int.Parse(price)) && (5000 >= int.Parse(price)))
                 {
                     return true;
                 }
@@ -157,6 +157,52 @@ namespace LabPaymentApp
             catch{
                 return false;
             }
+        }
+
+        /// <summary>
+        /// ログイン中のユーザーのStaticParamをアップデートします。
+        /// </summary>
+        /// <returns>trueの場合正常,falseの場合異常を示す</returns>
+        public static bool update_user()
+        {
+            try
+            {
+                DatabaseAccess db = new DatabaseAccess();
+                UsersInformation user = db.Get_UserInformation(StaticParam._mID);
+                StaticParam._balance = user._balance;
+                StaticParam._userName = user._user_name;
+                StaticParam._permission = user._permission;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static string Get_categoryName(int num){
+            switch(num){
+                case 1:
+                    return "水・飲料";
+                case 2:
+                    return "カップ麺(ラーメン)";
+                case 3:
+                    return "カップ麺(その他)";
+                case 4:
+                    return "チョコレート菓子";
+                case 5:
+                    return "スナック菓子";
+                case 6:
+                    return "駄菓子";
+                case 7:
+                    return "ファミリーパック菓子";
+                case 8:
+                    return "アイス";
+                case 9:
+                    return "その他";
+
+            }
+            return "未定義";
         }
     }
 }
