@@ -49,7 +49,7 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-        <TextBox x:Name="JANCODE_TEXT" HorizontalAlignment="Left" Margin="188,914,0,0" Text="" VerticalAlignment="Top" FontSize="72" Width="648" PlaceholderText="JANコード" KeyDown="JANCODE_TEXT_KeyDown"/>
+        <TextBox x:Name="JANCODE_TEXT" HorizontalAlignment="Left" Margin="188,914,0,0" Text="" VerticalAlignment="Top" FontSize="72" Width="648" PlaceholderText="JANコード" KeyDown="JANCODE_TEXT_KeyDown" InputScope="Default" />
         <Button x:Name="btn" Content="認証画面へ" HorizontalAlignment="Left" Margin="16,15,0,0" VerticalAlignment="Top" FontSize="48" Click="Button_Click"/>
 
     </Grid>

@@ -114,6 +114,7 @@ namespace LabPaymentApp
         private void DataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
             DataGrid dg = (DataGrid)sender;
+            if (dg.SelectedItem == null) return;
             Item item = dg.SelectedItem as Item;
             last_jan = item._janCode;
             dg.SelectedItem = null;

@@ -67,6 +67,7 @@ namespace LabPaymentApp
                 string mID = await Getmid();
                 if (mID != "")
                 {
+                    Enable_Toggle();
                     // mIDが登録されているかのチェック
                     DatabaseAccess db = new DatabaseAccess();
                     if(db.Search_UserInformation(mID)){
