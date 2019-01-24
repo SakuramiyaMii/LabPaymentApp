@@ -59,22 +59,24 @@ namespace LabPaymentApp
                     DatabaseAccess db = new DatabaseAccess();
                     if (db.Search_UserInformation(mID))
                     {
-                        // mIDが登録されていた場合
-                        // タイマーの停止
-                        this._timer.Stop();
+                        // 事前処理
+                        // 決済額のリセット
+                        total_price = 0;
+
+                        // カード情報表示
+                        UsersInformation uis = db.Get_UserInformation(mID);
+                        USER_INFO.Text = uis._user_name + " 様  残高 " + uis._balance + "円";
 
                         // 入力内容チェック
                         if (Items.Count <= 0)
                         {
-                            //var msg = new ContentDialog();
-                            //msg.Title = "Error";
-                            //msg.Content = "購入商品が登録されていません。";
-                            //msg.PrimaryButtonText = "OK";
-                            //await msg.ShowAsync();
-                            //JANCODE_TEXT.Focus(FocusState.Keyboard);
-                            this._timer.Start();
                             return;
                         }
+                       
+
+                        // mIDが登録されていた場合
+                        // タイマーの停止
+                        this._timer.Stop();
                         foreach (Item checkItem in Items)
                         {
                             if (checkItem._num <= 0)
@@ -117,7 +119,6 @@ namespace LabPaymentApp
                         if (db.Check_Payment(mID, total_price))
                         {
                             db.Exec_Payment(mID, total_price);
-                            total_price = 0;
                             foreach (Item item in Items)
                             {
                                 db.Insert_Purchase_Log(mID, item._janCode, item._num, item._price);
@@ -125,12 +126,14 @@ namespace LabPaymentApp
                             }
                             UsersInformation ui = db.Get_UserInformation(mID);
                             // ここで音を出してもいいかも
+                            SE.Play();
+                            USER_INFO.Text = uis._user_name + " 様  残高 " + (uis._balance - total_price) + "円 決済成功";
                             var msg = new ContentDialog();
                             msg.FontSize = 74;
                             msg.Title = "決済に成功しました。";
                             msg.Content = "残高 " + ui._balance + "円";
                             msg.PrimaryButtonText = "OK";
-                            await msg.ShowAsync();
+                            //await msg.ShowAsync();
                             Items.Clear();
                             JANCODE_TEXT.Focus(FocusState.Keyboard);
                             this._timer.Start();
@@ -138,7 +141,7 @@ namespace LabPaymentApp
                         }
                         else
                         {
-                            total_price = 0;
+                            
                             var msg = new ContentDialog();
                             msg.Title = "Error";
                             msg.Content = "残高が不足しています。";
@@ -164,6 +167,8 @@ namespace LabPaymentApp
                         JANCODE_TEXT.Focus(FocusState.Keyboard);
                         this._timer.Start();
                     }
+                }else{
+                    USER_INFO.Text = "";
                 }
             }
             catch
