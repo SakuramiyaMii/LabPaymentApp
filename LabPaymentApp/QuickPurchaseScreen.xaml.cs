@@ -117,6 +117,7 @@ namespace LabPaymentApp
                         if (db.Check_Payment(mID, total_price))
                         {
                             db.Exec_Payment(mID, total_price);
+                            total_price = 0;
                             foreach (Item item in Items)
                             {
                                 db.Insert_Purchase_Log(mID, item._janCode, item._num, item._price);
@@ -137,6 +138,7 @@ namespace LabPaymentApp
                         }
                         else
                         {
+                            total_price = 0;
                             var msg = new ContentDialog();
                             msg.Title = "Error";
                             msg.Content = "残高が不足しています。";
