@@ -211,9 +211,11 @@ namespace LabPaymentApp
             if(!int.TryParse(Balance_TEXT.Text,out balance)){
                 CheckFunction.Message_Show("Error","設定額が不正です。");
             }else{
-                if (balance >= 0 && balance <= 50000)
+                if (balance >= 0 && balance <= 500000)
                 {
+                    db.Insert_Operation_Log(StaticParam._mID, "初期金額更新(" + db.Get_Balance().ToString() + "円 → " + balance.ToString() + "円)");
                     db.Set_Balance(balance);
+                    
                     int All_Balance = balance;
                     foreach (PaymentLog pl in Logs)
                     {
@@ -229,7 +231,7 @@ namespace LabPaymentApp
                     All_Balance_TEXT.Text = All_Balance.ToString() + "円";
                     CheckFunction.Message_Show("初期金額を更新しました。", "");
                 }else{
-                    CheckFunction.Message_Show("Error", "設定額は0円以上50000円以下です。");
+                    CheckFunction.Message_Show("Error", "設定額は0円以上500000円以下です。");
                 }
             }
             Enable_Toggle();

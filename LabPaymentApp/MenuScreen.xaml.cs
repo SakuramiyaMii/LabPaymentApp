@@ -108,10 +108,9 @@ namespace LabPaymentApp
 
         private void Hotsell_View_Button_Click(object sender, RoutedEventArgs e)
         {
+            //CheckFunction.Message_Show("未実装機能です。","近日実装予定");
             Enable_Toggle();
-            CheckFunction.Message_Show("未実装機能です。","近日実装予定");
-            Enable_Toggle();
-            //Frame.Navigate(typeof(HotSellingProductsViewScreen));
+            Frame.Navigate(typeof(HotSellingProductsViewScreen));
         }
 
         private void Product_Add_Button_Click(object sender, RoutedEventArgs e)

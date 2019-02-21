@@ -12,6 +12,7 @@
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="230" Margin="245,217,0,0" Text="カードをかざして下さい" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72"/>
         <Button x:Name="mode_toggle" Content="クイックペイ切替" HorizontalAlignment="Left" Margin="39,32,0,0" VerticalAlignment="Top" FontSize="48" Click="Mode_toggle_Click"/>
+        <Button x:Name="Debug_Button" Content="デバッグ用" HorizontalAlignment="Left" Margin="1372,886,0,0" VerticalAlignment="Top" FontSize="72" Click="Debug_Button_Click_1" Visibility="Collapsed"/>
 
     </Grid>
 </Page>

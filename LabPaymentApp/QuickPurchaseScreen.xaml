@@ -12,6 +12,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" FontFamily="Segoe UI">
 
     <Grid Width="1920" Height="1200">
+        <MediaElement Source="Assets/id.mp3" x:Name="SE" AutoPlay="False"></MediaElement>
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="購入する商品のバーコードをスキャンして下さい" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72"/>
         <Button x:Name="_7_Button" Content="7" HorizontalAlignment="Left" Height="100" Margin="1554,390,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_7_Button_Click"/>
         <Button x:Name="_8_Button" Content="8" HorizontalAlignment="Left" Height="100" Margin="1654,390,0,0" VerticalAlignment="Top" Width="100" FontSize="72" Click="_8_Button_Click"/>
@@ -49,8 +50,10 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-        <TextBox x:Name="JANCODE_TEXT" HorizontalAlignment="Left" Margin="188,914,0,0" Text="" VerticalAlignment="Top" FontSize="72" Width="648" PlaceholderText="JANコード" KeyDown="JANCODE_TEXT_KeyDown"/>
+        <TextBox x:Name="JANCODE_TEXT" HorizontalAlignment="Left" Margin="186,1028,0,0" Text="" VerticalAlignment="Top" FontSize="72" Width="648" PlaceholderText="JANコード" KeyDown="JANCODE_TEXT_KeyDown" InputScope="Default" />
         <Button x:Name="btn" Content="認証画面へ" HorizontalAlignment="Left" Margin="16,15,0,0" VerticalAlignment="Top" FontSize="48" Click="Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="839,1051,0,0" Text="←商品が入力されない場合タップして下さい" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="48"/>
+        <TextBlock x:Name="USER_INFO" HorizontalAlignment="Left" Margin="186,905,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72"/>
 
     </Grid>
 </Page>

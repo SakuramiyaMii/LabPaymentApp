@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
@@ -45,53 +47,47 @@ namespace LabPaymentApp
             DataContext = this.GetItem();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // タイマー用メソッド
-        // カードが翳された場合、画面遷移を行う
         private async void Check_Card(object sender, object e)
         {
+            string mID = "";
+            // タイマーの停止
+            this._timer.Stop();
+
+            // カードを離した際のGetmid()で例外が走るみたいなので応急措置です
             try
             {
-                string mID = await Getmid();
+                mID = await Getmid();
+            }catch{
+                this._timer.Start();
+                return;
+            }
+
+            try
+            {
                 if (mID != "")
                 {
+                    // mIDが登録されていた場合
                     // mIDが登録されているかのチェック
                     DatabaseAccess db = new DatabaseAccess();
                     if (db.Search_UserInformation(mID))
                     {
-                        // mIDが登録されていた場合
-                        // タイマーの停止
-                        this._timer.Stop();
+                        // 事前処理
+                        // 決済額のリセット
+                        total_price = 0;
+
+                        // カード情報表示
+                        UsersInformation uis = db.Get_UserInformation(mID);
+                        USER_INFO.Text = uis._user_name + " 様  残高 " + uis._balance + "円";
 
                         // 入力内容チェック
                         if (Items.Count <= 0)
                         {
-                            var msg = new ContentDialog();
-                            msg.Title = "Error";
-                            msg.Content = "購入商品が登録されていません。";
-                            msg.PrimaryButtonText = "OK";
-                            await msg.ShowAsync();
-                            JANCODE_TEXT.Focus(FocusState.Keyboard);
                             this._timer.Start();
                             return;
                         }
+                      
+
                         foreach (Item checkItem in Items)
                         {
                             if (checkItem._num <= 0)
@@ -141,11 +137,14 @@ namespace LabPaymentApp
                             }
                             UsersInformation ui = db.Get_UserInformation(mID);
                             // ここで音を出してもいいかも
+                            SE.Play();
+                            USER_INFO.Text = uis._user_name + " 様  残高 " + (uis._balance - total_price) + "円 決済成功";
                             var msg = new ContentDialog();
+                            msg.FontSize = 74;
                             msg.Title = "決済に成功しました。";
                             msg.Content = "残高 " + ui._balance + "円";
                             msg.PrimaryButtonText = "OK";
-                            await msg.ShowAsync();
+                            //await msg.ShowAsync();
                             Items.Clear();
                             JANCODE_TEXT.Focus(FocusState.Keyboard);
                             this._timer.Start();
@@ -153,6 +152,7 @@ namespace LabPaymentApp
                         }
                         else
                         {
+                            
                             var msg = new ContentDialog();
                             msg.Title = "Error";
                             msg.Content = "残高が不足しています。";
@@ -169,7 +169,7 @@ namespace LabPaymentApp
                     {
                         // ダイアログ表示中も裏でタイマーが走るようなので一旦止めています。
                         // CheckFunction.Show_Messageを使用していないのは非同期スレッドが立つらしく確認する前にタイマーがスタートしてしまう為
-                        this._timer.Stop();
+                        
                         var msg = new ContentDialog();
                         msg.Title = "Error";
                         msg.Content = "登録されていないカードです。";
@@ -178,13 +178,16 @@ namespace LabPaymentApp
                         JANCODE_TEXT.Focus(FocusState.Keyboard);
                         this._timer.Start();
                     }
+                }else{
+                    this._timer.Start();
+                    USER_INFO.Text = "";
                 }
             }
-            catch
+            catch(Exception es)
             {
                 var msg = new ContentDialog();
                 msg.Title = "Error";
-                msg.Content = "不明なエラーです。管理者に問い合わせて下さい。";
+                msg.Content = "不明なエラーです。管理者に問い合わせて下さい。\n" + es;
                 msg.PrimaryButtonText = "OK";
                 await msg.ShowAsync();
                 JANCODE_TEXT.Focus(FocusState.Keyboard);
@@ -270,6 +273,7 @@ namespace LabPaymentApp
         private void DataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
             DataGrid dg = (DataGrid)sender;
+            if (dg.SelectedItem == null) return;
             Item item = dg.SelectedItem as Item;
             last_jan = item._janCode;
             dg.SelectedItem = null;
@@ -301,7 +305,10 @@ namespace LabPaymentApp
         string last_jan = "1";
         private void JANCODE_TEXT_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-                if (e.Key == Windows.System.VirtualKey.Enter)
+            //Encoding Enc = Encoding.GetEncoding("");
+            //if (Enc.GetByteCount(JANCODE_TEXT.Text) == JANCODE_TEXT.Text.Length * 2
+            //JANCODE_TEXT.Text = Regex.Replace(JANCODE_TEXT.Text, "[０-９]", p => ((char)(p.Value[0] - '０' + '0')).ToString());
+            if (e.Key == Windows.System.VirtualKey.Enter)
                 {
                     JANCODE_TEXT.IsReadOnly = true;
                     if (!CheckFunction.JANCODE_Integrity_Check(JANCODE_TEXT.Text))

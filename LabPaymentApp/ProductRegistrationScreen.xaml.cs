@@ -178,7 +178,7 @@ namespace LabPaymentApp
             }
             catch
             {
-                dg.SelectedItem = null;
+                //dg.SelectedItem = null;
             }
         }
 
@@ -400,7 +400,7 @@ namespace LabPaymentApp
 
         private void DataGrid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            JANCODE_TEXT.Focus(FocusState.Keyboard);
+            //JANCODE_TEXT.Focus(FocusState.Keyboard);
         }
 
         // ボタン類のトグルメソッド
