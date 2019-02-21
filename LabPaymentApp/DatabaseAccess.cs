@@ -872,6 +872,154 @@ namespace LabPaymentApp
 
             return ret;
         }
+
+        /// <summary>
+        ///     all_logテーブルとpurchases_logテーブルから指定したjancodeの売上日時リストを取得する
+        /// </summary>
+        /// <returns>
+        ///     DateTime : 売上日時のリスト
+        /// </returns>
+        public DateTime[] Get_AllSellingDate(string janCode)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT created_at FROM all_log inner join purchases_log ON all_log.operation_id = purchases_log.operation_id WHERE purchases_log.jan_code = @janCode", db);
+            command.Parameters.AddWithValue("@janCode", janCode);
+
+            DateTime[] ret = new DateTime[0];
+
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                while (query.Read())
+                {
+                    if (query.GetString(0) != null)
+                    {
+                        string[] date_1 = query.GetString(0).Split(' ');
+                        string[] date_2 = date_1[0].Split('-');
+                        string[] date_3 = date_1[1].Split(':');
+                        // date 0:西暦,1:月,2:日,3:時,4:分,5:秒 
+                        int[] date = { int.Parse(date_2[0]), int.Parse(date_2[1]), int.Parse(date_2[2]), int.Parse(date_3[0]), int.Parse(date_3[1]), int.Parse(date_3[2]) };
+
+
+                        Array.Resize(ref ret, ret.Length + 1);
+                        ret[ret.Length - 1] = new DateTime(date[0], date[1], date[2], date[3], date[4], date[5]);
+                    }else{
+
+                    }
+                }
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+        /// <summary>
+        ///     all_logテーブルとoperations_logテーブルから指定したjancodeの仕入れ日時リストを取得する
+        /// </summary>
+        /// <returns>
+        ///     DateTime : 仕入れ日時のリスト
+        /// </returns>
+        public DateTime[] Get_AllStockingDate(string janCode)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT created_at FROM all_log inner join operations_log ON all_log.operation_id = operations_log.operation_id WHERE (operations_log.operation_detail like @janCode1 OR operations_log.operation_detail like @janCode2)", db);
+            command.Parameters.AddWithValue("@janCode1", "商品登録%"+janCode+'%');
+            command.Parameters.AddWithValue("@janCode2", "商品在庫更新%" + janCode + '%');
+
+            DateTime[] ret = new DateTime[0];
+
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                while (query.Read())
+                {
+                    if (query.GetString(0) != null)
+                    {
+                        string[] date_1 = query.GetString(0).Split(' ');
+                        string[] date_2 = date_1[0].Split('-');
+                        string[] date_3 = date_1[1].Split(':');
+                        // date 0:西暦,1:月,2:日,3:時,4:分,5:秒 
+                        int[] date = { int.Parse(date_2[0]), int.Parse(date_2[1]), int.Parse(date_2[2]), int.Parse(date_3[0]), int.Parse(date_3[1]), int.Parse(date_3[2]) };
+
+
+                        Array.Resize(ref ret, ret.Length + 1);
+                        ret[ret.Length - 1] = new DateTime(date[0], date[1], date[2], date[3], date[4], date[5]);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+            db.Close();
+
+            return ret;
+        }
+
+        /// <summary>
+        ///     all_logテーブルとoperations_logテーブルから指定したjancodeの累計仕入れ個数リストを取得する
+        /// </summary>
+        /// <returns>
+        ///     int[] : 仕入れ個数の累計リスト
+        /// </returns>
+        public int[] Get_AllStockingHistory(string janCode)
+        {
+            SqliteConnection db = this.OpenDB();
+
+            SqliteCommand command = new SqliteCommand("SELECT operation_detail FROM all_log inner join operations_log ON all_log.operation_id = operations_log.operation_id WHERE (operations_log.operation_detail like @janCode1 OR operations_log.operation_detail like @janCode2)", db);
+            command.Parameters.AddWithValue("@janCode1", "商品登録%" + janCode + '%');
+            command.Parameters.AddWithValue("@janCode2", "商品在庫更新%" + janCode + '%');
+
+            int[] ret = new int[0];
+            using (SqliteDataReader query = command.ExecuteReader())
+            {
+                while (query.Read())
+                {
+                    if (query.GetString(0) != null)
+                    {
+                        string[] splitbuf = query.GetString(0).Split('=');
+                        string[] str = splitbuf[splitbuf.Length - 1].Split("→");
+                        string num = "", num1 = "";
+                        
+                        for(int i = 0;i <= str[str.Length - 1].Length - 1; i++){
+                            if(str[str.Length - 1][i] == '0' || str[str.Length - 1][i] == '1' || str[str.Length - 1][i] == '2' || str[str.Length - 1][i] == '3' || str[str.Length - 1][i] == '4' || str[str.Length - 1][i] == '5' || str[str.Length - 1][i] == '6' || str[str.Length - 1][i] == '7' || str[str.Length - 1][i] == '8' || str[str.Length - 1][i] == '9'){
+                                num += str[str.Length - 1][i];
+                            }
+                        }
+                        if(str.Length > 1){
+                            for (int i = 0; i <= str[str.Length - 2].Length - 1; i++)
+                            {
+                                if (str[str.Length - 2][i] == '0' || str[str.Length - 2][i] == '1' || str[str.Length - 2][i] == '2' || str[str.Length - 2][i] == '3' || str[str.Length - 2][i] == '4' || str[str.Length - 2][i] == '5' || str[str.Length - 2][i] == '6' || str[str.Length - 2][i] == '7' || str[str.Length - 2][i] == '8' || str[str.Length - 2][i] == '9')
+                                {
+                                    num1 += str[str.Length - 2][i];
+                                }
+                            }
+                        }
+
+                        int ans = 0;
+                        if(num1 != ""){
+                            ans = int.Parse(num) - int.Parse(num1);
+                        }else{
+                            ans = int.Parse(num);
+                        }
+
+
+                        Array.Resize(ref ret, ret.Length + 1);
+                        ret[ret.Length - 1] = ans;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+            db.Close();
+
+            return ret;
+        }
         // Log[end] ----------------------------------------------------------------------------------------------
 
         // Default -----------------------------------------------------------------------------------------------

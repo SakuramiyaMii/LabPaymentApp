@@ -186,5 +186,25 @@ namespace LabPaymentApp
                 mode_toggle.IsEnabled = true;
             }
         }
+
+        private void Debug_Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Enable_Toggle();
+            // mIDが登録されているかのチェック
+            DatabaseAccess db = new DatabaseAccess();
+            if (db.Search_UserInformation("01148E4778184D03"))
+            {
+                // タイマーの停止
+                this._timer.Stop();
+                // ユーザー情報の取得
+                UsersInformation user = db.Get_UserInformation("01148E4778184D03");
+                StaticParam._mID = user._mid;
+                StaticParam._userName = user._user_name;
+                StaticParam._balance = user._balance;
+                StaticParam._permission = user._permission;
+                // 遷移
+                Frame.Navigate(typeof(MenuScreen), user);
+            }
+        }
     }
 }

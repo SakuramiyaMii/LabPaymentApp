@@ -1,4 +1,5 @@
 ﻿<Page
+    Loaded="Page_Loaded"
     Width="1920" Height="1200"
     x:Class="LabPaymentApp.HotSellingProductsViewScreen"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,13 +8,46 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Grid Width="1920" Height="1200">
         <TextBlock HorizontalAlignment="Left" Height="103" Margin="289,45,0,0" Text="売れ筋商品を表示します" TextWrapping="Wrap" VerticalAlignment="Top" Width="1364" FontSize="72" FontFamily="Segoe UI"/>
-        <Button Content="【表】" HorizontalAlignment="Left" Margin="103,234,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="727" Width="1284" FontSize="72"/>
-        <Button Content="フィルタ関連" HorizontalAlignment="Left" Margin="1435,234,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="441" Width="449" FontSize="72"/>
         <Button x:Name="Back_Button" Content="戻る" HorizontalAlignment="Left" Margin="1445,898,0,0" VerticalAlignment="Top" FontFamily="Segoe UI" Height="143" Width="419" FontSize="72" Click="Back_Button_Click"/>
 
+        <controls:DataGrid 
+            GridLinesVisibility="All"
+            x:Name="dataGrid" 
+            Margin="134,172,524,159"
+            AutoGenerateColumns="false"
+            CanUserSortColumns="True"
+            
+            ItemsSource="{Binding}"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Tag ="Type" IsReadOnly="True" FontSize="24" Header="種別" Binding="{Binding _type}"/>
+                <controls:DataGridTextColumn Tag ="Item" IsReadOnly="True" FontSize="24" Header="商品名" Binding="{Binding _itemName}"/>
+                <controls:DataGridTextColumn Tag ="Num" IsReadOnly="True" FontSize="24" Header="在庫数" Binding="{Binding _num}"/>
+                <controls:DataGridTextColumn Tag ="Score" IsReadOnly="True" FontSize="24" Header="スコア" Binding="{Binding _price}"/>
+
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+        <TextBox x:Name="Keyword_Box" HorizontalAlignment="Left" Margin="1447,205,0,0" Text="" VerticalAlignment="Top" PlaceholderText="フリーワード" FontSize="48" Width="384" KeyUp="Keyword_Box_KeyUp"/>
+        <Button x:Name="Search_Button" Content="検索" HorizontalAlignment="Left" Height="58" Margin="1681,299,0,0" VerticalAlignment="Top" Width="150" FontSize="36" Click="Search_Button_Click"/>
+        <ComboBox x:Name="category_TEXT" HorizontalAlignment="Left" Margin="1445,430,0,0" VerticalAlignment="Top" FontSize="36" Width="386" SelectionChanged="Category_TEXT_SelectionChanged">
+            <ComboBoxItem IsSelected="true">カテゴリー</ComboBoxItem>
+            <ComboBoxItem>水・飲料</ComboBoxItem>
+            <ComboBoxItem>カップ麺(ラーメン)</ComboBoxItem>
+            <ComboBoxItem>カップ麺(その他)</ComboBoxItem>
+            <ComboBoxItem>チョコレート菓子</ComboBoxItem>
+            <ComboBoxItem>スナック菓子</ComboBoxItem>
+            <ComboBoxItem>駄菓子</ComboBoxItem>
+            <ComboBoxItem>ファミリーパック菓子</ComboBoxItem>
+            <ComboBoxItem>アイス</ComboBoxItem>
+            <ComboBoxItem>その他</ComboBoxItem>
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="1445,552,0,0" Text="スコア目安&#10;0~100&#10;101~500&#10;501~2000&#10;2001~5000&#10;5000~&#10;99999" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" TextAlignment="Center"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="1565,552,0,0" Text="&#10;データ不足が考えられます&#10;潜在的な需要が見込めます&#10;安定して売れ行きの良い商品です&#10;売れ行きの悪い商品です&#10;売れ残ることが多い商品です&#10;一度も売れていない商品です" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" TextAlignment="Left" Width="334"/>
+        <TextBlock HorizontalAlignment="Left" Margin="1466,762,0,0" Text="スコアと在庫数を考慮して仕入れを行って下さい" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" Width="380"/>
     </Grid>
 </Page>

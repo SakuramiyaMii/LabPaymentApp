@@ -50,11 +50,24 @@ namespace LabPaymentApp
         // タイマー用メソッド
         private async void Check_Card(object sender, object e)
         {
+            string mID = "";
+            // タイマーの停止
+            this._timer.Stop();
+
+            // カードを離した際のGetmid()で例外が走るみたいなので応急措置です
             try
             {
-                string mID = await Getmid();
+                mID = await Getmid();
+            }catch{
+                this._timer.Start();
+                return;
+            }
+
+            try
+            {
                 if (mID != "")
                 {
+                    // mIDが登録されていた場合
                     // mIDが登録されているかのチェック
                     DatabaseAccess db = new DatabaseAccess();
                     if (db.Search_UserInformation(mID))
@@ -70,13 +83,11 @@ namespace LabPaymentApp
                         // 入力内容チェック
                         if (Items.Count <= 0)
                         {
+                            this._timer.Start();
                             return;
                         }
-                       
+                      
 
-                        // mIDが登録されていた場合
-                        // タイマーの停止
-                        this._timer.Stop();
                         foreach (Item checkItem in Items)
                         {
                             if (checkItem._num <= 0)
@@ -158,7 +169,7 @@ namespace LabPaymentApp
                     {
                         // ダイアログ表示中も裏でタイマーが走るようなので一旦止めています。
                         // CheckFunction.Show_Messageを使用していないのは非同期スレッドが立つらしく確認する前にタイマーがスタートしてしまう為
-                        this._timer.Stop();
+                        
                         var msg = new ContentDialog();
                         msg.Title = "Error";
                         msg.Content = "登録されていないカードです。";
@@ -168,14 +179,15 @@ namespace LabPaymentApp
                         this._timer.Start();
                     }
                 }else{
+                    this._timer.Start();
                     USER_INFO.Text = "";
                 }
             }
-            catch
+            catch(Exception es)
             {
                 var msg = new ContentDialog();
                 msg.Title = "Error";
-                msg.Content = "不明なエラーです。管理者に問い合わせて下さい。";
+                msg.Content = "不明なエラーです。管理者に問い合わせて下さい。\n" + es;
                 msg.PrimaryButtonText = "OK";
                 await msg.ShowAsync();
                 JANCODE_TEXT.Focus(FocusState.Keyboard);
